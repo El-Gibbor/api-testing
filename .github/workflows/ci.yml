@@ -6,6 +6,15 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   test:
     name: Build and test
@@ -35,6 +44,12 @@ jobs:
           name: allure-report
           path: target/site/allure-maven-plugin
           retention-days: 30
+
+      - name: Upload Allure report for Pages
+        if: always() && github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: target/site/allure-maven-plugin
 
       - name: Upload Allure results
         if: always()
@@ -68,3 +83,16 @@ jobs:
           name: docker-allure-results
           path: target/allure-results
           retention-days: 30
+
+  deploy-report:
+    name: Deploy Allure report to GitHub Pages
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
