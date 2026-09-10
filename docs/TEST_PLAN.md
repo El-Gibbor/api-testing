@@ -70,10 +70,14 @@ hardcoded inline in test methods, keeping payloads reusable and easy to update.
 | GET-02 | GET | `/posts/{id}` | Fetch a single post | 200, body fields match, schema |
 | GET-03 | GET | `/posts/{id}` | Fetch a non-existent post | 404 |
 | GET-04 | GET | `/posts/{id}/comments` | Fetch nested comments for a post | 200, all items reference the parent `postId`, schema |
+| GET-05 | GET | `/posts/{id}` | Fetch with an invalid id (non-numeric, zero, negative) | 404 for each case |
 | POST-01 | POST | `/posts` | Create a new post | 201, response echoes submitted fields, generated `id` present |
-| POST-02 | POST | `/posts` | Create with malformed/empty body | Documented actual behavior of the fake API |
+| POST-02 | POST | `/posts` | Create with an empty body | Documented actual behavior of the fake API |
+| POST-03 | POST | `/posts` | Create with a non-JSON `Content-Type` | 201, but the raw body is not parsed as JSON (documented quirk) |
+| POST-04 | POST | `/posts` | Create with malformed JSON syntax | 500 (**known fragile**, see Section 6) |
 | PUT-01 | PUT | `/posts/{id}` | Fully update an existing post | 200, response reflects updated fields |
-| PUT-02 | PUT | `/posts/{id}` | Update a non-existent post | Documented actual behavior of the fake API |
+| PUT-02 | PUT | `/posts/{id}` | Update a non-existent post | 500 (**known fragile**, see Section 6) |
+| PUT-03 | PUT | `/posts/{id}` | Update with a non-numeric id | 500 (**known fragile**, see Section 6) |
 | DELETE-01 | DELETE | `/posts/{id}` | Delete an existing post | 200, empty response body |
 | DELETE-02 | DELETE | `/posts/{id}` | Delete a non-existent post | Documented actual behavior of the fake API |
 
@@ -89,6 +93,17 @@ This table is the living index of automated coverage; individual test methods in
 - **Headers**: `Content-Type` (and others where relevant) asserted per response.
 - **JSON Schema**: representative endpoints validated against schema files in
   `src/test/resources/schemas/`, catching unexpected structural/contract drift.
+
+### Known-fragile tests
+
+`POST-04`, `PUT-02`, and `PUT-03` assert on a `500` response caused by an unhandled
+crash in JSONPlaceholder's backend (`json-server`/`body-parser` throwing on malformed
+input or a missing record) rather than a documented error contract. They are
+deterministic today, but they pin to an upstream *bug*, not a *guarantee*: if
+JSONPlaceholder ever patches this, these tests will start failing with no code change
+on our side. If that happens, relax the assertion (e.g. to "not 2xx") rather than
+treating it as a regression. This is a known, accepted trade-off of testing against a
+public third-party fake API rather than a service we control.
 
 ## 7. Reporting
 

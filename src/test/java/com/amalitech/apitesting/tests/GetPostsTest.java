@@ -5,6 +5,8 @@ import com.amalitech.apitesting.models.Post;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
@@ -12,7 +14,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 /**
- * GET-01, GET-02, GET-03 from docs/TEST_PLAN.md.
+ * GET-01, GET-02, GET-03, GET-05 from docs/TEST_PLAN.md.
  */
 class GetPostsTest extends BaseTest {
 
@@ -61,6 +63,18 @@ class GetPostsTest extends BaseTest {
     void getPostById_nonExistentId_returnsNotFound() {
         given()
             .pathParam("id", 999_999)
+        .when()
+            .get("/posts/{id}")
+        .then()
+            .statusCode(404);
+    }
+
+    @ParameterizedTest(name = "GET /posts/{0} returns 404")
+    @ValueSource(strings = {"abc", "0", "-1"})
+    @DisplayName("GET-05: GET /posts/{id} returns 404 for invalid ids (non-numeric, zero, negative)")
+    void getPostById_invalidId_returnsNotFound(String invalidId) {
+        given()
+            .pathParam("id", invalidId)
         .when()
             .get("/posts/{id}")
         .then()

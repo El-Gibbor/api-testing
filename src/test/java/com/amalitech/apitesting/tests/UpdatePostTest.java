@@ -13,7 +13,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 /**
- * PUT-01, PUT-02 from docs/TEST_PLAN.md.
+ * PUT-01, PUT-02, PUT-03 from docs/TEST_PLAN.md.
  */
 class UpdatePostTest extends BaseTest {
 
@@ -43,12 +43,28 @@ class UpdatePostTest extends BaseTest {
 
     @Test
     @DisplayName("PUT-02: PUT /posts/{id} for a non-existent post returns a server error "
-        + "(documented behavior: the fake API's backend throws on missing records instead of a 404)")
+        + "(KNOWN FRAGILE: the fake API's backend throws on missing records instead of returning "
+        + "404 - not a documented contract. If this starts failing, it likely means upstream fixed "
+        + "the bug - relax this assertion rather than assuming a regression.)")
     void updatePost_nonExistentId_returnsServerError() {
         given()
             .contentType(ContentType.JSON)
             .pathParam("id", 999_999)
             .body("{\"id\":999999,\"userId\":1,\"title\":\"updated\",\"body\":\"updated body\"}")
+        .when()
+            .put("/posts/{id}")
+        .then()
+            .statusCode(500);
+    }
+
+    @Test
+    @DisplayName("PUT-03: PUT /posts/{id} with a non-numeric id returns a server error "
+        + "(KNOWN FRAGILE: same underlying backend crash as PUT-02, not a documented contract)")
+    void updatePost_nonNumericId_returnsServerError() {
+        given()
+            .contentType(ContentType.JSON)
+            .pathParam("id", "abc")
+            .body("{\"title\":\"updated\"}")
         .when()
             .put("/posts/{id}")
         .then()
