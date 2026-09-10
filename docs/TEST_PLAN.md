@@ -75,6 +75,7 @@ hardcoded inline in test methods, keeping payloads reusable and easy to update.
 | PUT-01 | PUT | `/posts/{id}` | Fully update an existing post | 200, response reflects updated fields |
 | PUT-02 | PUT | `/posts/{id}` | Update a non-existent post | Documented actual behavior of the fake API |
 | DELETE-01 | DELETE | `/posts/{id}` | Delete an existing post | 200, empty response body |
+| DELETE-02 | DELETE | `/posts/{id}` | Delete a non-existent post | Documented actual behavior of the fake API |
 
 This table is the living index of automated coverage; individual test methods in
 `src/test/java/com/amalitech/apitesting/tests` map 1:1 to these IDs via their
