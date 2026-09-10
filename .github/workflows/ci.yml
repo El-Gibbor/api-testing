@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Run test suite
+        run: mvn -B test
+
+      - name: Generate Allure report
+        if: always()
+        run: mvn -B io.qameta.allure:allure-maven:report
+
+      - name: Upload Allure report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: target/site/allure-maven-plugin
+          retention-days: 30
+
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: target/allure-results
+          retention-days: 30
+
+  docker:
+    name: Containerized test run
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t api-testing .
+
+      - name: Run test suite in container
+        run: |
+          mkdir -p target/allure-results
+          docker run --rm \
+            -v "${{ github.workspace }}/target/allure-results:/app/target/allure-results" \
+            api-testing
+
+      - name: Upload containerized Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-allure-results
+          path: target/allure-results
+          retention-days: 30

@@ -1,0 +1,9 @@
+target/
+allure-results/
+allure-report/
+.allure/
+.git/
+.idea/
+*.iml
+docs/
+API-Testing.md
