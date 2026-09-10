@@ -2,6 +2,11 @@ package com.amalitech.apitesting.tests;
 
 import com.amalitech.apitesting.base.BaseTest;
 import com.amalitech.apitesting.models.Comment;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,10 +22,14 @@ import static org.hamcrest.Matchers.is;
 /**
  * GET-04 from docs/TEST_PLAN.md.
  */
+@Epic("JSONPlaceholder API")
+@Feature("GET /posts/{id}/comments")
 class GetPostCommentsTest extends BaseTest {
 
     @Test
     @DisplayName("GET-04: GET /posts/{id}/comments returns comments belonging to that post")
+    @Story("Fetch nested comments for a post")
+    @Severity(SeverityLevel.NORMAL)
     void getCommentsForPost_returnsMatchingComments() {
         int postId = 1;
 

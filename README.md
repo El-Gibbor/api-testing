@@ -7,34 +7,6 @@ in Docker, or via GitHub Actions CI.
 See [`docs/TEST_PLAN.md`](docs/TEST_PLAN.md) for the full test plan (scope, environment,
 test case index, and validation strategy).
 
-## Tech stack
-
-| Concern | Tool |
-|---------|------|
-| Language / build | Java 17, Maven |
-| HTTP client / assertions | REST Assured 5.x |
-| Test framework | JUnit 5 |
-| Schema validation | REST Assured `json-schema-validator` |
-| Reporting | Allure 2.x |
-| Containerization | Docker |
-| CI/CD | GitHub Actions |
-
-## Project structure
-
-```
-src/test/java/com/amalitech/apitesting/
-  base/     BaseTest - shared REST Assured configuration
-  models/   Post, Comment - Jackson-backed record models
-  utils/    ConfigReader, TestDataLoader
-  tests/    one test class per HTTP verb / resource behavior
-src/test/resources/
-  config.properties  default environment configuration
-  schemas/           JSON Schema files used for contract validation
-  testdata/          JSON fixtures for POST/PUT request bodies
-docs/
-  TEST_PLAN.md       test plan document
-```
-
 ## Running the tests locally
 
 Requires Java 17 and Maven.
@@ -68,6 +40,12 @@ Or generate and serve it in one step:
 ```bash
 mvn io.qameta.allure:allure-maven:serve
 ```
+
+Tests are annotated with `@Epic`/`@Feature`/`@Story`/`@Severity`, so the report's
+**Behaviors** tab groups results as Epic (`JSONPlaceholder API`) > Feature (one per
+endpoint, e.g. `POST /posts`) > Story (one per test-plan case, e.g. "Create with
+malformed JSON"). Severity marks the three known-fragile tests documented in
+`docs/TEST_PLAN.md` as `MINOR` so they stand out from core-contract failures.
 
 ## Running in Docker
 

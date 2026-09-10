@@ -1,6 +1,11 @@
 package com.amalitech.apitesting.tests;
 
 import com.amalitech.apitesting.base.BaseTest;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,10 +16,14 @@ import static org.hamcrest.Matchers.equalTo;
 /**
  * DELETE-01, DELETE-02 from docs/TEST_PLAN.md.
  */
+@Epic("JSONPlaceholder API")
+@Feature("DELETE /posts/{id}")
 class DeletePostTest extends BaseTest {
 
     @Test
     @DisplayName("DELETE-01: DELETE /posts/{id} removes an existing post")
+    @Story("Delete an existing post")
+    @Severity(SeverityLevel.CRITICAL)
     void deletePost_returnsEmptyBody() {
         given()
             .pathParam("id", 1)
@@ -29,6 +38,8 @@ class DeletePostTest extends BaseTest {
     @Test
     @DisplayName("DELETE-02: DELETE /posts/{id} for a non-existent post is idempotent "
         + "(documented behavior: the fake API returns 200 regardless of whether the id exists)")
+    @Story("Delete a non-existent post")
+    @Severity(SeverityLevel.NORMAL)
     void deletePost_nonExistentId_stillReturnsOk() {
         given()
             .pathParam("id", 999_999)
