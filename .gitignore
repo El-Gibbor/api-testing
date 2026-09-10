@@ -4,6 +4,7 @@ target/
 # Allure
 allure-results/
 allure-report/
+.allure/
 
 # IDE
 .idea/
