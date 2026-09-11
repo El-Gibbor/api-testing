@@ -13,13 +13,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.Arrays;
+
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 /**
- * COM-GET-01, COM-GET-02, COM-GET-03, COM-GET-04 from docs/TEST_PLAN.md.
+ * COM-GET-01, COM-GET-02, COM-GET-03, COM-GET-04, COM-GET-05 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
 @Feature("GET /comments")
@@ -95,5 +97,27 @@ class GetCommentsTest extends BaseTest {
             .get("/comments/{id}")
         .then()
             .statusCode(404);
+    }
+
+    @Test
+    @DisplayName("COM-GET-05: GET /comments?postId={id} returns only comments belonging to that post")
+    @Story("Filter comments by query parameter")
+    @Severity(SeverityLevel.NORMAL)
+    void getCommentsByPostId_returnsOnlyMatchingComments() {
+        int postId = 1;
+
+        Comment[] comments = given()
+            .queryParam("postId", postId)
+            .when()
+                .get("/comments")
+            .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body(matchesJsonSchemaInClasspath("schemas/comment-array-schema.json"))
+            .extract()
+                .as(Comment[].class);
+
+        assertThat(comments.length, greaterThan(0));
+        assertThat(Arrays.stream(comments).allMatch(comment -> comment.postId().equals(postId)), is(true));
     }
 }

@@ -13,13 +13,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.Arrays;
+
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 /**
- * ALB-GET-01, ALB-GET-02, ALB-GET-03, ALB-GET-04 from docs/TEST_PLAN.md.
+ * ALB-GET-01, ALB-GET-02, ALB-GET-03, ALB-GET-04, ALB-GET-05 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
 @Feature("GET /albums")
@@ -93,5 +95,27 @@ class GetAlbumsTest extends BaseTest {
             .get("/albums/{id}")
         .then()
             .statusCode(404);
+    }
+
+    @Test
+    @DisplayName("ALB-GET-05: GET /albums?userId={id} returns only albums belonging to that user")
+    @Story("Filter albums by query parameter")
+    @Severity(SeverityLevel.NORMAL)
+    void getAlbumsByUserId_returnsOnlyMatchingAlbums() {
+        int userId = 1;
+
+        Album[] albums = given()
+            .queryParam("userId", userId)
+            .when()
+                .get("/albums")
+            .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body(matchesJsonSchemaInClasspath("schemas/album-array-schema.json"))
+            .extract()
+                .as(Album[].class);
+
+        assertThat(albums.length, greaterThan(0));
+        assertThat(Arrays.stream(albums).allMatch(album -> album.userId().equals(userId)), is(true));
     }
 }

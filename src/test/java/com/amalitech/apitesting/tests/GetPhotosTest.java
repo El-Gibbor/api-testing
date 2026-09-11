@@ -13,13 +13,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.Arrays;
+
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 /**
- * PHO-GET-01, PHO-GET-02, PHO-GET-03, PHO-GET-04 from docs/TEST_PLAN.md.
+ * PHO-GET-01, PHO-GET-02, PHO-GET-03, PHO-GET-04, PHO-GET-05 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
 @Feature("GET /photos")
@@ -95,5 +97,27 @@ class GetPhotosTest extends BaseTest {
             .get("/photos/{id}")
         .then()
             .statusCode(404);
+    }
+
+    @Test
+    @DisplayName("PHO-GET-05: GET /photos?albumId={id} returns only photos belonging to that album")
+    @Story("Filter photos by query parameter")
+    @Severity(SeverityLevel.NORMAL)
+    void getPhotosByAlbumId_returnsOnlyMatchingPhotos() {
+        int albumId = 1;
+
+        Photo[] photos = given()
+            .queryParam("albumId", albumId)
+            .when()
+                .get("/photos")
+            .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body(matchesJsonSchemaInClasspath("schemas/photo-array-schema.json"))
+            .extract()
+                .as(Photo[].class);
+
+        assertThat(photos.length, greaterThan(0));
+        assertThat(Arrays.stream(photos).allMatch(photo -> photo.albumId().equals(albumId)), is(true));
     }
 }

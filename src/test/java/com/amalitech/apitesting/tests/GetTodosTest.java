@@ -13,13 +13,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.Arrays;
+
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 /**
- * TOD-GET-01, TOD-GET-02, TOD-GET-03, TOD-GET-04 from docs/TEST_PLAN.md.
+ * TOD-GET-01, TOD-GET-02, TOD-GET-03, TOD-GET-04, TOD-GET-05 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
 @Feature("GET /todos")
@@ -94,5 +96,30 @@ class GetTodosTest extends BaseTest {
             .get("/todos/{id}")
         .then()
             .statusCode(404);
+    }
+
+    @Test
+    @DisplayName("TOD-GET-05: GET /todos?userId={id}&completed={bool} returns only matching todos")
+    @Story("Filter todos by multiple query parameters")
+    @Severity(SeverityLevel.NORMAL)
+    void getTodosByUserIdAndCompleted_returnsOnlyMatchingTodos() {
+        int userId = 1;
+        boolean completed = false;
+
+        Todo[] todos = given()
+            .queryParam("userId", userId)
+            .queryParam("completed", completed)
+            .when()
+                .get("/todos")
+            .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body(matchesJsonSchemaInClasspath("schemas/todo-array-schema.json"))
+            .extract()
+                .as(Todo[].class);
+
+        assertThat(todos.length, greaterThan(0));
+        assertThat(Arrays.stream(todos)
+            .allMatch(todo -> todo.userId().equals(userId) && todo.completed().equals(completed)), is(true));
     }
 }

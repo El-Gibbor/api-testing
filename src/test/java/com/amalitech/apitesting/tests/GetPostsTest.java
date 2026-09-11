@@ -13,13 +13,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.Arrays;
+
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 /**
- * GET-01, GET-02, GET-03, GET-05 from docs/TEST_PLAN.md.
+ * GET-01, GET-02, GET-03, GET-05, GET-06 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
 @Feature("GET /posts")
@@ -94,5 +96,27 @@ class GetPostsTest extends BaseTest {
             .get("/posts/{id}")
         .then()
             .statusCode(404);
+    }
+
+    @Test
+    @DisplayName("GET-06: GET /posts?userId={id} returns only posts belonging to that user")
+    @Story("Filter posts by query parameter")
+    @Severity(SeverityLevel.NORMAL)
+    void getPostsByUserId_returnsOnlyMatchingPosts() {
+        int userId = 1;
+
+        Post[] posts = given()
+            .queryParam("userId", userId)
+            .when()
+                .get("/posts")
+            .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body(matchesJsonSchemaInClasspath("schemas/post-array-schema.json"))
+            .extract()
+                .as(Post[].class);
+
+        assertThat(posts.length, greaterThan(0));
+        assertThat(Arrays.stream(posts).allMatch(post -> post.userId().equals(userId)), is(true));
     }
 }

@@ -13,13 +13,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.Arrays;
+
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 /**
- * USR-GET-01, USR-GET-02, USR-GET-03, USR-GET-04 from docs/TEST_PLAN.md.
+ * USR-GET-01, USR-GET-02, USR-GET-03, USR-GET-04, USR-GET-05 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
 @Feature("GET /users")
@@ -97,5 +99,27 @@ class GetUsersTest extends BaseTest {
             .get("/users/{id}")
         .then()
             .statusCode(404);
+    }
+
+    @Test
+    @DisplayName("USR-GET-05: GET /users?username={username} returns only the matching user")
+    @Story("Filter users by query parameter")
+    @Severity(SeverityLevel.NORMAL)
+    void getUsersByUsername_returnsOnlyMatchingUser() {
+        String username = "Bret";
+
+        User[] users = given()
+            .queryParam("username", username)
+            .when()
+                .get("/users")
+            .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body(matchesJsonSchemaInClasspath("schemas/user-array-schema.json"))
+            .extract()
+                .as(User[].class);
+
+        assertThat(users.length, greaterThan(0));
+        assertThat(Arrays.stream(users).allMatch(user -> user.username().equals(username)), is(true));
     }
 }
