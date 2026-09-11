@@ -12,8 +12,9 @@ locally and in a containerized CI/CD pipeline.
 ### In scope
 
 - HTTP methods: `GET`, `POST`, `PUT`, `DELETE`
-- Resources: `/posts`, `/comments`, `/users` (primary), with `/posts/{id}/comments` as a
-  nested-resource example
+- Resources: all six JSONPlaceholder resources - `/posts`, `/comments`, `/albums`,
+  `/photos`, `/todos`, `/users` - with `/posts/{id}/comments` as a nested-resource
+  example
 - Validations:
   - HTTP status codes (success and not-found paths)
   - Response body structure and field values
@@ -64,6 +65,8 @@ hardcoded inline in test methods, keeping payloads reusable and easy to update.
 
 ## 5. Test Cases Summary
 
+### Posts (`/posts`)
+
 | ID | Method | Endpoint | Description | Key Assertions |
 |----|--------|----------|--------------|-----------------|
 | GET-01 | GET | `/posts` | List all posts | 200, non-empty array, `Content-Type: application/json`, schema |
@@ -81,9 +84,36 @@ hardcoded inline in test methods, keeping payloads reusable and easy to update.
 | DELETE-01 | DELETE | `/posts/{id}` | Delete an existing post | 200, empty response body |
 | DELETE-02 | DELETE | `/posts/{id}` | Delete a non-existent post | Documented actual behavior of the fake API |
 
-This table is the living index of automated coverage; individual test methods in
-`src/test/java/com/amalitech/apitesting/tests` map 1:1 to these IDs via their
-`@DisplayName`.
+### Comments, Albums, Photos, Todos, Users
+
+The remaining five resources each get the same four-class CRUD shape as `/posts`
+(minus the `/posts`-specific quirk tests for a non-JSON `Content-Type` and malformed
+JSON, which are backend-wide behaviors already pinned once above rather than repeated
+per resource). Resource codes: `COM` = `/comments`, `ALB` = `/albums`, `PHO` =
+`/photos`, `TOD` = `/todos`, `USR` = `/users`.
+
+| ID pattern | Method | Endpoint | Description | Key Assertions |
+|----|--------|----------|--------------|-----------------|
+| `{RES}-GET-01` | GET | `/{resource}` | List all | 200, non-empty array, `Content-Type: application/json`, schema |
+| `{RES}-GET-02` | GET | `/{resource}/{id}` | Fetch a single item | 200, body fields match, schema |
+| `{RES}-GET-03` | GET | `/{resource}/{id}` | Fetch a non-existent item | 404 |
+| `{RES}-GET-04` | GET | `/{resource}/{id}` | Fetch with an invalid id (non-numeric, zero, negative) | 404 for each case |
+| `{RES}-POST-01` | POST | `/{resource}` | Create a new item | 201, response echoes submitted fields, generated `id` present |
+| `{RES}-POST-02` | POST | `/{resource}` | Create with an empty body | Documented actual behavior of the fake API |
+| `{RES}-PUT-01` | PUT | `/{resource}/{id}` | Fully update an existing item | 200, response reflects updated fields |
+| `{RES}-PUT-02` | PUT | `/{resource}/{id}` | Update a non-existent item | 500 (**known fragile**, see Section 6) |
+| `{RES}-DELETE-01` | DELETE | `/{resource}/{id}` | Delete an existing item | 200, empty response body |
+| `{RES}-DELETE-02` | DELETE | `/{resource}/{id}` | Delete a non-existent item | Documented actual behavior of the fake API |
+
+Concretely this expands to `COM-GET-01` .. `COM-DELETE-02` in `GetCommentsTest` /
+`CreateCommentTest` / `UpdateCommentTest` / `DeleteCommentTest` (and likewise `ALB-*`,
+`PHO-*`, `TOD-*`, `USR-*` in their respective test classes) - 10 test IDs per resource,
+verified directly against the live API for each of the five resources before being
+committed (see Section 6).
+
+This table (and its expansion above) is the living index of automated coverage;
+individual test methods in `src/test/java/com/amalitech/apitesting/tests` map 1:1 to
+these IDs via their `@DisplayName`.
 
 ## 6. Validation Strategy
 
@@ -96,14 +126,18 @@ This table is the living index of automated coverage; individual test methods in
 
 ### Known-fragile tests
 
-`POST-04`, `PUT-02`, and `PUT-03` assert on a `500` response caused by an unhandled
-crash in JSONPlaceholder's backend (`json-server`/`body-parser` throwing on malformed
-input or a missing record) rather than a documented error contract. They are
-deterministic today, but they pin to an upstream *bug*, not a *guarantee*: if
-JSONPlaceholder ever patches this, these tests will start failing with no code change
-on our side. If that happens, relax the assertion (e.g. to "not 2xx") rather than
-treating it as a regression. This is a known, accepted trade-off of testing against a
-public third-party fake API rather than a service we control.
+`POST-04`, `PUT-02`, and `PUT-03` (on `/posts`), and the `{RES}-PUT-02` test in each of
+`UpdateCommentTest`, `UpdateAlbumTest`, `UpdatePhotoTest`, `UpdateTodoTest`, and
+`UpdateUserTest`, assert on a `500` response caused by an unhandled crash in
+JSONPlaceholder's backend (`json-server`/`body-parser` throwing on malformed input or a
+missing record) rather than a documented error contract. They are deterministic today,
+but they pin to an upstream *bug*, not a *guarantee*: if JSONPlaceholder ever patches
+this, these tests will start failing with no code change on our side. If that happens,
+relax the assertion (e.g. to "not 2xx") rather than treating it as a regression. This is
+a known, accepted trade-off of testing against a public third-party fake API rather
+than a service we control. The crash was confirmed to reproduce identically across all
+six resources before these tests were added, so it is treated as one backend-wide bug
+rather than six independent ones.
 
 ## 7. Reporting
 
