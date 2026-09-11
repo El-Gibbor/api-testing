@@ -232,9 +232,12 @@ with `@Epic`/`@Feature`/`@Story`/`@Severity` so the report's **Behaviors** tab g
 results as Epic (`JSONPlaceholder API`) > Feature (one per resource, e.g. `Comments`,
 `Users`) > Story (one per HTTP verb + test-plan case, e.g. "POST - Create a new
 comment", "GET - Fetch nested todos for a user"), with known-fragile tests marked
-`MINOR` severity to separate them from core-contract failures. See the root
-`README.md` for the exact commands, and `https://el-gibbor.github.io/api-testing/` for
-the latest published report.
+`MINOR` severity to separate them from core-contract failures. The `AllureRestAssured`
+filter (registered in `BaseTest`) additionally attaches each call's full request and
+response - method, URL, headers, body, status, and a `curl` repro - to its test in the
+report, so execution detail is available without re-running anything locally. See the
+root `README.md` for the exact commands, and `https://el-gibbor.github.io/api-testing/`
+for the latest published report.
 
 ## 8. CI/CD
 

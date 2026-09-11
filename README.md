@@ -47,6 +47,11 @@ resource, e.g. `Comments`) > Story (one per HTTP verb + test-plan case, e.g.
 "POST - Create with malformed JSON"). Severity marks the known-fragile tests documented
 in `docs/TEST_PLAN.md` as `MINOR` so they stand out from core-contract failures.
 
+Every test's page also has a **Request**/**Response** attachment (method, URL, headers,
+body, status, and a ready-to-run `curl` repro), via the `AllureRestAssured` filter
+registered in `BaseTest` - so a failure can be diagnosed straight from the report
+without re-running anything locally.
+
 ## Running in Docker
 
 ```bash
