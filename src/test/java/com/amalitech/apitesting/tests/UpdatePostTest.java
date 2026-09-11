@@ -27,7 +27,7 @@ class UpdatePostTest extends BaseTest {
 
     @Test
     @DisplayName("PUT-01: PUT /posts/{id} fully updates an existing post")
-    @Description("200, response reflects updated fields.")
+    @Description("Returns 200 with the response reflecting the updated fields.")
     @Story("PUT - Fully update an existing post")
     @Severity(SeverityLevel.CRITICAL)
     void updatePost_returnsUpdatedPost() {
@@ -53,11 +53,8 @@ class UpdatePostTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("PUT-02: PUT /posts/{id} for a non-existent post returns a server error "
-        + "(KNOWN FRAGILE: the fake API's backend throws on missing records instead of returning "
-        + "404 - not a documented contract. If this starts failing, it likely means upstream fixed "
-        + "the bug - relax this assertion rather than assuming a regression.)")
-    @Description("500 (known fragile - pins to an upstream json-server bug, not a documented contract).")
+    @DisplayName("PUT-02: PUT /posts/{id} for a non-existent post returns a server error")
+    @Description("KNOWN FRAGILE: the fake API's backend throws on missing records instead of returning 404 - not a documented contract. If this starts failing, it likely means upstream fixed the bug - relax this assertion rather than assuming a regression.")
     @Story("PUT - Update a non-existent post")
     @Severity(SeverityLevel.MINOR)
     void updatePost_nonExistentId_returnsServerError() {
@@ -72,9 +69,8 @@ class UpdatePostTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("PUT-03: PUT /posts/{id} with a non-numeric id returns a server error "
-        + "(KNOWN FRAGILE: same underlying backend crash as PUT-02, not a documented contract)")
-    @Description("500 (known fragile - pins to an upstream json-server bug, not a documented contract).")
+    @DisplayName("PUT-03: PUT /posts/{id} with a non-numeric id returns a server error")
+    @Description("KNOWN FRAGILE: same underlying backend crash as PUT-02, not a documented contract.")
     @Story("PUT - Update with a non-numeric id")
     @Severity(SeverityLevel.MINOR)
     void updatePost_nonNumericId_returnsServerError() {

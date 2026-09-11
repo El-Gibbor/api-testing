@@ -27,7 +27,7 @@ class UpdateAlbumTest extends BaseTest {
 
     @Test
     @DisplayName("ALB-PUT-01: PUT /albums/{id} fully updates an existing album")
-    @Description("200, response reflects updated fields.")
+    @Description("Returns 200 with the response reflecting the updated fields.")
     @Story("PUT - Fully update an existing album")
     @Severity(SeverityLevel.CRITICAL)
     void updateAlbum_returnsUpdatedAlbum() {
@@ -52,11 +52,8 @@ class UpdateAlbumTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("ALB-PUT-02: PUT /albums/{id} for a non-existent album returns a server error "
-        + "(KNOWN FRAGILE: same underlying backend crash as PUT-02/PUT-03 in UpdatePostTest - not a "
-        + "documented contract. If this starts failing, it likely means upstream fixed the bug - relax "
-        + "this assertion rather than assuming a regression.)")
-    @Description("500 (known fragile - pins to an upstream json-server bug, not a documented contract).")
+    @DisplayName("ALB-PUT-02: PUT /albums/{id} for a non-existent album returns a server error")
+    @Description("KNOWN FRAGILE: same underlying backend crash as PUT-02/PUT-03 in UpdatePostTest - not a documented contract. If this starts failing, it likely means upstream fixed the bug - relax this assertion rather than assuming a regression.")
     @Story("PUT - Update a non-existent album")
     @Severity(SeverityLevel.MINOR)
     void updateAlbum_nonExistentId_returnsServerError() {

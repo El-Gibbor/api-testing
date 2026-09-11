@@ -29,7 +29,7 @@ class CreateTodoTest extends BaseTest {
 
     @Test
     @DisplayName("TOD-POST-01: POST /todos creates a new todo and echoes the submitted fields")
-    @Description("201, response echoes submitted fields, generated id present.")
+    @Description("Returns 201 with the created todo echoing the submitted fields and a generated id.")
     @Story("POST - Create a new todo")
     @Severity(SeverityLevel.CRITICAL)
     void createTodo_returnsCreatedTodo() {
@@ -54,9 +54,8 @@ class CreateTodoTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("TOD-POST-02: POST /todos with an empty body still returns 201 with a generated id "
-        + "(documented behavior of the fake API, which does not validate payloads)")
-    @Description("Documented actual behavior of the fake API.")
+    @DisplayName("TOD-POST-02: POST /todos with an empty body still succeeds")
+    @Description("Documented behavior of the fake API: it does not validate payloads, so an empty body still returns 201 with a generated id.")
     @Story("POST - Create with an empty body")
     @Severity(SeverityLevel.NORMAL)
     void createTodo_emptyBody_stillReturnsCreatedWithGeneratedId() {
@@ -72,9 +71,8 @@ class CreateTodoTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("TOD-POST-03: POST /todos with a non-JSON Content-Type is not parsed as JSON "
-        + "(documented behavior: the fake API silently misinterprets the raw body instead of rejecting it)")
-    @Description("201, but the raw body is not parsed as JSON (documented quirk).")
+    @DisplayName("TOD-POST-03: POST /todos with a non-JSON Content-Type is not parsed as JSON")
+    @Description("Documented quirk: the fake API silently misinterprets the raw body instead of rejecting it, still returning 201.")
     @Story("POST - Create with a non-JSON Content-Type")
     @Severity(SeverityLevel.NORMAL)
     void createTodo_nonJsonContentType_bodyIsNotParsedAsJson() {
@@ -94,11 +92,8 @@ class CreateTodoTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("TOD-POST-04: POST /todos with malformed JSON returns an unhandled server error "
-        + "(KNOWN FRAGILE: pins to the same body-parser/json-server crash as POST-04 in CreatePostTest, "
-        + "not a documented 400 contract. If this test starts failing, it likely means upstream added "
-        + "input validation - relax this assertion rather than assuming a regression.)")
-    @Description("500 (known fragile - pins to an upstream json-server bug, not a documented contract).")
+    @DisplayName("TOD-POST-04: POST /todos with malformed JSON returns an unhandled server error")
+    @Description("KNOWN FRAGILE: pins to the same body-parser/json-server crash as POST-04 in CreatePostTest, not a documented 400 contract. If this starts failing, it likely means upstream added input validation - relax this assertion rather than assuming a regression.")
     @Story("POST - Create with malformed JSON")
     @Severity(SeverityLevel.MINOR)
     void createTodo_malformedJson_returnsServerError() {

@@ -29,7 +29,7 @@ class GetUserAlbumsTest extends BaseTest {
 
     @Test
     @DisplayName("NEST-01: GET /users/{id}/albums returns albums belonging to that user")
-    @Description("200, all items reference the parent userId, schema.")
+    @Description("Returns 200 with all albums referencing the parent userId, validated against the albums array schema.")
     @Story("GET - Fetch nested albums for a user")
     @Severity(SeverityLevel.NORMAL)
     void getAlbumsForUser_returnsMatchingAlbums() {

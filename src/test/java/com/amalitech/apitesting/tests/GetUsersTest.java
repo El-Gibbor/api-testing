@@ -30,7 +30,7 @@ class GetUsersTest extends BaseTest {
 
     @Test
     @DisplayName("USR-GET-01: GET /users returns all users with a valid schema")
-    @Description("200, non-empty array, Content-Type: application/json, schema.")
+    @Description("Returns 200 with a non-empty array of users, the Content-Type header set to application/json, and a body that matches the users array JSON schema.")
     @Story("GET - List all users")
     @Severity(SeverityLevel.CRITICAL)
     void getAllUsers_returnsUsersList() {
@@ -51,7 +51,7 @@ class GetUsersTest extends BaseTest {
 
     @Test
     @DisplayName("USR-GET-02: GET /users/{id} returns the requested user")
-    @Description("200, body fields (incl. nested address/company) match, schema.")
+    @Description("Returns 200 with the requested user's fields, validated against the user JSON schema.")
     @Story("GET - Fetch a single user")
     @Severity(SeverityLevel.CRITICAL)
     void getUserById_returnsMatchingUser() {
@@ -79,7 +79,7 @@ class GetUsersTest extends BaseTest {
 
     @Test
     @DisplayName("USR-GET-03: GET /users/{id} for a non-existent user returns 404")
-    @Description("404.")
+    @Description("Returns 404 when the requested user id does not exist.")
     @Story("GET - Fetch a non-existent user")
     @Severity(SeverityLevel.NORMAL)
     void getUserById_nonExistentId_returnsNotFound() {
@@ -94,7 +94,7 @@ class GetUsersTest extends BaseTest {
     @ParameterizedTest(name = "GET /users/{0} returns 404")
     @ValueSource(strings = {"abc", "0", "-1"})
     @DisplayName("USR-GET-04: GET /users/{id} returns 404 for invalid ids (non-numeric, zero, negative)")
-    @Description("404 for each case.")
+    @Description("Returns 404 for a non-numeric, zero, and negative id alike.")
     @Story("GET - Fetch with an invalid id")
     @Severity(SeverityLevel.NORMAL)
     void getUserById_invalidId_returnsNotFound(String invalidId) {
@@ -108,7 +108,7 @@ class GetUsersTest extends BaseTest {
 
     @Test
     @DisplayName("USR-GET-05: GET /users?username={username} returns only the matching user")
-    @Description("200, the returned user matches the given username, schema.")
+    @Description("Returns 200 with the single user matching the given username, validated against the users array schema.")
     @Story("GET - Filter users by query parameter")
     @Severity(SeverityLevel.NORMAL)
     void getUsersByUsername_returnsOnlyMatchingUser() {

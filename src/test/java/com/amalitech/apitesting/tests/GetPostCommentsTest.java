@@ -29,7 +29,7 @@ class GetPostCommentsTest extends BaseTest {
 
     @Test
     @DisplayName("GET-04: GET /posts/{id}/comments returns comments belonging to that post")
-    @Description("200, all items reference the parent postId, schema.")
+    @Description("Returns 200 with all comments referencing the parent postId, validated against the comments array schema.")
     @Story("GET - Fetch nested comments for a post")
     @Severity(SeverityLevel.NORMAL)
     void getCommentsForPost_returnsMatchingComments() {

@@ -29,7 +29,7 @@ class CreatePostTest extends BaseTest {
 
     @Test
     @DisplayName("POST-01: POST /posts creates a new post and echoes the submitted fields")
-    @Description("201, response echoes submitted fields, generated id present.")
+    @Description("Returns 201 with the created post echoing the submitted fields and a generated id.")
     @Story("POST - Create a new post")
     @Severity(SeverityLevel.CRITICAL)
     void createPost_returnsCreatedPost() {
@@ -54,9 +54,8 @@ class CreatePostTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("POST-02: POST /posts with an empty body still returns 201 with a generated id "
-        + "(documented behavior of the fake API, which does not validate payloads)")
-    @Description("Documented actual behavior of the fake API.")
+    @DisplayName("POST-02: POST /posts with an empty body still succeeds")
+    @Description("Documented behavior of the fake API: it does not validate payloads, so an empty body still returns 201 with a generated id.")
     @Story("POST - Create with an empty body")
     @Severity(SeverityLevel.NORMAL)
     void createPost_emptyBody_stillReturnsCreatedWithGeneratedId() {
@@ -72,9 +71,8 @@ class CreatePostTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("POST-03: POST /posts with a non-JSON Content-Type is not parsed as JSON "
-        + "(documented behavior: the fake API silently misinterprets the raw body instead of rejecting it)")
-    @Description("201, but the raw body is not parsed as JSON (documented quirk).")
+    @DisplayName("POST-03: POST /posts with a non-JSON Content-Type is not parsed as JSON")
+    @Description("Documented quirk: the fake API silently misinterprets the raw body instead of rejecting it, still returning 201.")
     @Story("POST - Create with a non-JSON Content-Type")
     @Severity(SeverityLevel.NORMAL)
     void createPost_nonJsonContentType_bodyIsNotParsedAsJson() {
@@ -94,11 +92,8 @@ class CreatePostTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("POST-04: POST /posts with malformed JSON returns an unhandled server error "
-        + "(KNOWN FRAGILE: pins to a body-parser/json-server crash, not a documented 400 contract. "
-        + "If this test starts failing, it likely means upstream added input validation - relax "
-        + "this assertion rather than assuming a regression.)")
-    @Description("500 (known fragile - pins to an upstream json-server bug, not a documented contract).")
+    @DisplayName("POST-04: POST /posts with malformed JSON returns an unhandled server error")
+    @Description("KNOWN FRAGILE: pins to a body-parser/json-server crash, not a documented 400 contract. If this starts failing, it likely means upstream added input validation - relax this assertion rather than assuming a regression.")
     @Story("POST - Create with malformed JSON")
     @Severity(SeverityLevel.MINOR)
     void createPost_malformedJson_returnsServerError() {

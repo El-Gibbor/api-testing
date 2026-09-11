@@ -30,7 +30,7 @@ class GetPostsTest extends BaseTest {
 
     @Test
     @DisplayName("GET-01: GET /posts returns all posts with a valid schema")
-    @Description("200, non-empty array, Content-Type: application/json, schema.")
+    @Description("Returns 200 with a non-empty array of posts, the Content-Type header set to application/json, and a body that matches the posts array JSON schema.")
     @Story("GET - List all posts")
     @Severity(SeverityLevel.CRITICAL)
     void getAllPosts_returnsPostsList() {
@@ -51,7 +51,7 @@ class GetPostsTest extends BaseTest {
 
     @Test
     @DisplayName("GET-02: GET /posts/{id} returns the requested post")
-    @Description("200, body fields match, schema.")
+    @Description("Returns 200 with the requested post's fields, validated against the post JSON schema.")
     @Story("GET - Fetch a single post")
     @Severity(SeverityLevel.CRITICAL)
     void getPostById_returnsMatchingPost() {
@@ -76,7 +76,7 @@ class GetPostsTest extends BaseTest {
 
     @Test
     @DisplayName("GET-03: GET /posts/{id} for a non-existent post returns 404")
-    @Description("404.")
+    @Description("Returns 404 when the requested post id does not exist.")
     @Story("GET - Fetch a non-existent post")
     @Severity(SeverityLevel.NORMAL)
     void getPostById_nonExistentId_returnsNotFound() {
@@ -91,7 +91,7 @@ class GetPostsTest extends BaseTest {
     @ParameterizedTest(name = "GET /posts/{0} returns 404")
     @ValueSource(strings = {"abc", "0", "-1"})
     @DisplayName("GET-05: GET /posts/{id} returns 404 for invalid ids (non-numeric, zero, negative)")
-    @Description("404 for each case.")
+    @Description("Returns 404 for a non-numeric, zero, and negative id alike.")
     @Story("GET - Fetch with an invalid id")
     @Severity(SeverityLevel.NORMAL)
     void getPostById_invalidId_returnsNotFound(String invalidId) {
@@ -105,7 +105,7 @@ class GetPostsTest extends BaseTest {
 
     @Test
     @DisplayName("GET-06: GET /posts?userId={id} returns only posts belonging to that user")
-    @Description("200, all items reference the given userId, schema.")
+    @Description("Returns 200 with only the posts belonging to the given userId, validated against the posts array schema.")
     @Story("GET - Filter posts by query parameter")
     @Severity(SeverityLevel.NORMAL)
     void getPostsByUserId_returnsOnlyMatchingPosts() {

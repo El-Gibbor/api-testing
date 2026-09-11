@@ -29,7 +29,7 @@ class GetAlbumPhotosTest extends BaseTest {
 
     @Test
     @DisplayName("NEST-04: GET /albums/{id}/photos returns photos belonging to that album")
-    @Description("200, all items reference the parent albumId, schema.")
+    @Description("Returns 200 with all photos referencing the parent albumId, validated against the photos array schema.")
     @Story("GET - Fetch nested photos for an album")
     @Severity(SeverityLevel.NORMAL)
     void getPhotosForAlbum_returnsMatchingPhotos() {

@@ -29,7 +29,7 @@ class GetUserTodosTest extends BaseTest {
 
     @Test
     @DisplayName("NEST-02: GET /users/{id}/todos returns todos belonging to that user")
-    @Description("200, all items reference the parent userId, schema.")
+    @Description("Returns 200 with all todos referencing the parent userId, validated against the todos array schema.")
     @Story("GET - Fetch nested todos for a user")
     @Severity(SeverityLevel.NORMAL)
     void getTodosForUser_returnsMatchingTodos() {

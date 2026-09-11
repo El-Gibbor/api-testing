@@ -23,7 +23,7 @@ class DeleteUserTest extends BaseTest {
 
     @Test
     @DisplayName("USR-DELETE-01: DELETE /users/{id} removes an existing user")
-    @Description("200, empty response body.")
+    @Description("Returns 200 with an empty response body.")
     @Story("DELETE - Delete an existing user")
     @Severity(SeverityLevel.CRITICAL)
     void deleteUser_returnsEmptyBody() {
@@ -38,9 +38,8 @@ class DeleteUserTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("USR-DELETE-02: DELETE /users/{id} for a non-existent user is idempotent "
-        + "(documented behavior: the fake API returns 200 regardless of whether the id exists)")
-    @Description("Documented actual behavior of the fake API.")
+    @DisplayName("USR-DELETE-02: DELETE /users/{id} for a non-existent user is idempotent")
+    @Description("Documented behavior of the fake API: returns 200 regardless of whether the id exists.")
     @Story("DELETE - Delete a non-existent user")
     @Severity(SeverityLevel.NORMAL)
     void deleteUser_nonExistentId_stillReturnsOk() {

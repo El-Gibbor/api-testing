@@ -30,7 +30,7 @@ class GetAlbumsTest extends BaseTest {
 
     @Test
     @DisplayName("ALB-GET-01: GET /albums returns all albums with a valid schema")
-    @Description("200, non-empty array, Content-Type: application/json, schema.")
+    @Description("Returns 200 with a non-empty array of albums, the Content-Type header set to application/json, and a body that matches the albums array JSON schema.")
     @Story("GET - List all albums")
     @Severity(SeverityLevel.CRITICAL)
     void getAllAlbums_returnsAlbumsList() {
@@ -51,7 +51,7 @@ class GetAlbumsTest extends BaseTest {
 
     @Test
     @DisplayName("ALB-GET-02: GET /albums/{id} returns the requested album")
-    @Description("200, body fields match, schema.")
+    @Description("Returns 200 with the requested album's fields, validated against the album JSON schema.")
     @Story("GET - Fetch a single album")
     @Severity(SeverityLevel.CRITICAL)
     void getAlbumById_returnsMatchingAlbum() {
@@ -75,7 +75,7 @@ class GetAlbumsTest extends BaseTest {
 
     @Test
     @DisplayName("ALB-GET-03: GET /albums/{id} for a non-existent album returns 404")
-    @Description("404.")
+    @Description("Returns 404 when the requested album id does not exist.")
     @Story("GET - Fetch a non-existent album")
     @Severity(SeverityLevel.NORMAL)
     void getAlbumById_nonExistentId_returnsNotFound() {
@@ -90,7 +90,7 @@ class GetAlbumsTest extends BaseTest {
     @ParameterizedTest(name = "GET /albums/{0} returns 404")
     @ValueSource(strings = {"abc", "0", "-1"})
     @DisplayName("ALB-GET-04: GET /albums/{id} returns 404 for invalid ids (non-numeric, zero, negative)")
-    @Description("404 for each case.")
+    @Description("Returns 404 for a non-numeric, zero, and negative id alike.")
     @Story("GET - Fetch with an invalid id")
     @Severity(SeverityLevel.NORMAL)
     void getAlbumById_invalidId_returnsNotFound(String invalidId) {
@@ -104,7 +104,7 @@ class GetAlbumsTest extends BaseTest {
 
     @Test
     @DisplayName("ALB-GET-05: GET /albums?userId={id} returns only albums belonging to that user")
-    @Description("200, all items reference the given userId, schema.")
+    @Description("Returns 200 with only the albums belonging to the given userId, validated against the albums array schema.")
     @Story("GET - Filter albums by query parameter")
     @Severity(SeverityLevel.NORMAL)
     void getAlbumsByUserId_returnsOnlyMatchingAlbums() {

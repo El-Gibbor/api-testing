@@ -29,7 +29,7 @@ class CreateCommentTest extends BaseTest {
 
     @Test
     @DisplayName("COM-POST-01: POST /comments creates a new comment and echoes the submitted fields")
-    @Description("201, response echoes submitted fields, generated id present.")
+    @Description("Returns 201 with the created comment echoing the submitted fields and a generated id.")
     @Story("POST - Create a new comment")
     @Severity(SeverityLevel.CRITICAL)
     void createComment_returnsCreatedComment() {
@@ -55,9 +55,8 @@ class CreateCommentTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("COM-POST-02: POST /comments with an empty body still returns 201 with a generated id "
-        + "(documented behavior of the fake API, which does not validate payloads)")
-    @Description("Documented actual behavior of the fake API.")
+    @DisplayName("COM-POST-02: POST /comments with an empty body still succeeds")
+    @Description("Documented behavior of the fake API: it does not validate payloads, so an empty body still returns 201 with a generated id.")
     @Story("POST - Create with an empty body")
     @Severity(SeverityLevel.NORMAL)
     void createComment_emptyBody_stillReturnsCreatedWithGeneratedId() {
@@ -73,9 +72,8 @@ class CreateCommentTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("COM-POST-03: POST /comments with a non-JSON Content-Type is not parsed as JSON "
-        + "(documented behavior: the fake API silently misinterprets the raw body instead of rejecting it)")
-    @Description("201, but the raw body is not parsed as JSON (documented quirk).")
+    @DisplayName("COM-POST-03: POST /comments with a non-JSON Content-Type is not parsed as JSON")
+    @Description("Documented quirk: the fake API silently misinterprets the raw body instead of rejecting it, still returning 201.")
     @Story("POST - Create with a non-JSON Content-Type")
     @Severity(SeverityLevel.NORMAL)
     void createComment_nonJsonContentType_bodyIsNotParsedAsJson() {
@@ -95,11 +93,8 @@ class CreateCommentTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("COM-POST-04: POST /comments with malformed JSON returns an unhandled server error "
-        + "(KNOWN FRAGILE: pins to the same body-parser/json-server crash as POST-04 in CreatePostTest, "
-        + "not a documented 400 contract. If this test starts failing, it likely means upstream added "
-        + "input validation - relax this assertion rather than assuming a regression.)")
-    @Description("500 (known fragile - pins to an upstream json-server bug, not a documented contract).")
+    @DisplayName("COM-POST-04: POST /comments with malformed JSON returns an unhandled server error")
+    @Description("KNOWN FRAGILE: pins to the same body-parser/json-server crash as POST-04 in CreatePostTest, not a documented 400 contract. If this starts failing, it likely means upstream added input validation - relax this assertion rather than assuming a regression.")
     @Story("POST - Create with malformed JSON")
     @Severity(SeverityLevel.MINOR)
     void createComment_malformedJson_returnsServerError() {

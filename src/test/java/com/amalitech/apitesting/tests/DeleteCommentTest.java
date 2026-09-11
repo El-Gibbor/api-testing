@@ -23,7 +23,7 @@ class DeleteCommentTest extends BaseTest {
 
     @Test
     @DisplayName("COM-DELETE-01: DELETE /comments/{id} removes an existing comment")
-    @Description("200, empty response body.")
+    @Description("Returns 200 with an empty response body.")
     @Story("DELETE - Delete an existing comment")
     @Severity(SeverityLevel.CRITICAL)
     void deleteComment_returnsEmptyBody() {
@@ -38,9 +38,8 @@ class DeleteCommentTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("COM-DELETE-02: DELETE /comments/{id} for a non-existent comment is idempotent "
-        + "(documented behavior: the fake API returns 200 regardless of whether the id exists)")
-    @Description("Documented actual behavior of the fake API.")
+    @DisplayName("COM-DELETE-02: DELETE /comments/{id} for a non-existent comment is idempotent")
+    @Description("Documented behavior of the fake API: returns 200 regardless of whether the id exists.")
     @Story("DELETE - Delete a non-existent comment")
     @Severity(SeverityLevel.NORMAL)
     void deleteComment_nonExistentId_stillReturnsOk() {

@@ -23,7 +23,7 @@ class DeleteTodoTest extends BaseTest {
 
     @Test
     @DisplayName("TOD-DELETE-01: DELETE /todos/{id} removes an existing todo")
-    @Description("200, empty response body.")
+    @Description("Returns 200 with an empty response body.")
     @Story("DELETE - Delete an existing todo")
     @Severity(SeverityLevel.CRITICAL)
     void deleteTodo_returnsEmptyBody() {
@@ -38,9 +38,8 @@ class DeleteTodoTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("TOD-DELETE-02: DELETE /todos/{id} for a non-existent todo is idempotent "
-        + "(documented behavior: the fake API returns 200 regardless of whether the id exists)")
-    @Description("Documented actual behavior of the fake API.")
+    @DisplayName("TOD-DELETE-02: DELETE /todos/{id} for a non-existent todo is idempotent")
+    @Description("Documented behavior of the fake API: returns 200 regardless of whether the id exists.")
     @Story("DELETE - Delete a non-existent todo")
     @Severity(SeverityLevel.NORMAL)
     void deleteTodo_nonExistentId_stillReturnsOk() {

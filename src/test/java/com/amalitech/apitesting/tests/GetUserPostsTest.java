@@ -29,7 +29,7 @@ class GetUserPostsTest extends BaseTest {
 
     @Test
     @DisplayName("NEST-03: GET /users/{id}/posts returns posts belonging to that user")
-    @Description("200, all items reference the parent userId, schema.")
+    @Description("Returns 200 with all posts referencing the parent userId, validated against the posts array schema.")
     @Story("GET - Fetch nested posts for a user")
     @Severity(SeverityLevel.NORMAL)
     void getPostsForUser_returnsMatchingPosts() {

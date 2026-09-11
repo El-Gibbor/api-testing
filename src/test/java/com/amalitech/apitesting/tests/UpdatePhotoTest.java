@@ -27,7 +27,7 @@ class UpdatePhotoTest extends BaseTest {
 
     @Test
     @DisplayName("PHO-PUT-01: PUT /photos/{id} fully updates an existing photo")
-    @Description("200, response reflects updated fields.")
+    @Description("Returns 200 with the response reflecting the updated fields.")
     @Story("PUT - Fully update an existing photo")
     @Severity(SeverityLevel.CRITICAL)
     void updatePhoto_returnsUpdatedPhoto() {
@@ -54,11 +54,8 @@ class UpdatePhotoTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("PHO-PUT-02: PUT /photos/{id} for a non-existent photo returns a server error "
-        + "(KNOWN FRAGILE: same underlying backend crash as PUT-02/PUT-03 in UpdatePostTest - not a "
-        + "documented contract. If this starts failing, it likely means upstream fixed the bug - relax "
-        + "this assertion rather than assuming a regression.)")
-    @Description("500 (known fragile - pins to an upstream json-server bug, not a documented contract).")
+    @DisplayName("PHO-PUT-02: PUT /photos/{id} for a non-existent photo returns a server error")
+    @Description("KNOWN FRAGILE: same underlying backend crash as PUT-02/PUT-03 in UpdatePostTest - not a documented contract. If this starts failing, it likely means upstream fixed the bug - relax this assertion rather than assuming a regression.")
     @Story("PUT - Update a non-existent photo")
     @Severity(SeverityLevel.MINOR)
     void updatePhoto_nonExistentId_returnsServerError() {
