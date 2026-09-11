@@ -3,6 +3,7 @@ package com.amalitech.apitesting.tests;
 import com.amalitech.apitesting.base.BaseTest;
 import com.amalitech.apitesting.models.Post;
 import com.amalitech.apitesting.utils.TestDataLoader;
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -28,6 +29,7 @@ class CreatePostTest extends BaseTest {
 
     @Test
     @DisplayName("POST-01: POST /posts creates a new post and echoes the submitted fields")
+    @Description("201, response echoes submitted fields, generated id present.")
     @Story("POST - Create a new post")
     @Severity(SeverityLevel.CRITICAL)
     void createPost_returnsCreatedPost() {
@@ -54,6 +56,7 @@ class CreatePostTest extends BaseTest {
     @Test
     @DisplayName("POST-02: POST /posts with an empty body still returns 201 with a generated id "
         + "(documented behavior of the fake API, which does not validate payloads)")
+    @Description("Documented actual behavior of the fake API.")
     @Story("POST - Create with an empty body")
     @Severity(SeverityLevel.NORMAL)
     void createPost_emptyBody_stillReturnsCreatedWithGeneratedId() {
@@ -71,6 +74,7 @@ class CreatePostTest extends BaseTest {
     @Test
     @DisplayName("POST-03: POST /posts with a non-JSON Content-Type is not parsed as JSON "
         + "(documented behavior: the fake API silently misinterprets the raw body instead of rejecting it)")
+    @Description("201, but the raw body is not parsed as JSON (documented quirk).")
     @Story("POST - Create with a non-JSON Content-Type")
     @Severity(SeverityLevel.NORMAL)
     void createPost_nonJsonContentType_bodyIsNotParsedAsJson() {
@@ -94,6 +98,7 @@ class CreatePostTest extends BaseTest {
         + "(KNOWN FRAGILE: pins to a body-parser/json-server crash, not a documented 400 contract. "
         + "If this test starts failing, it likely means upstream added input validation - relax "
         + "this assertion rather than assuming a regression.)")
+    @Description("500 (known fragile - pins to an upstream json-server bug, not a documented contract).")
     @Story("POST - Create with malformed JSON")
     @Severity(SeverityLevel.MINOR)
     void createPost_malformedJson_returnsServerError() {

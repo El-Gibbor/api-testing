@@ -19,9 +19,6 @@ public final class TestDataLoader {
 
     /**
      * Reads {@code testdata/<fileName>} from the classpath and deserializes it into the given type.
-     *
-     * @param fileName name of the JSON fixture file, e.g. "new-post.json"
-     * @param type     target POJO class
      */
     public static <T> T load(String fileName, Class<T> type) {
         String path = TESTDATA_DIR + fileName;

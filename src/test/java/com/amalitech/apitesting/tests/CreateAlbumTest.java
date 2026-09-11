@@ -1,23 +1,27 @@
 package com.amalitech.apitesting.tests;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 import com.amalitech.apitesting.base.BaseTest;
 import com.amalitech.apitesting.models.Album;
 import com.amalitech.apitesting.utils.TestDataLoader;
+
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
+import static io.restassured.RestAssured.given;
 import io.restassured.config.EncoderConfig;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.http.ContentType;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 
 /**
  * ALB-POST-01, ALB-POST-02, ALB-POST-03, ALB-POST-04 from docs/TEST_PLAN.md.
@@ -28,6 +32,7 @@ class CreateAlbumTest extends BaseTest {
 
     @Test
     @DisplayName("ALB-POST-01: POST /albums creates a new album and echoes the submitted fields")
+    @Description("201, response echoes submitted fields, generated id present.")
     @Story("POST - Create a new album")
     @Severity(SeverityLevel.CRITICAL)
     void createAlbum_returnsCreatedAlbum() {
@@ -53,6 +58,7 @@ class CreateAlbumTest extends BaseTest {
     @Test
     @DisplayName("ALB-POST-02: POST /albums with an empty body still returns 201 with a generated id "
         + "(documented behavior of the fake API, which does not validate payloads)")
+    @Description("Documented actual behavior of the fake API.")
     @Story("POST - Create with an empty body")
     @Severity(SeverityLevel.NORMAL)
     void createAlbum_emptyBody_stillReturnsCreatedWithGeneratedId() {
@@ -70,12 +76,10 @@ class CreateAlbumTest extends BaseTest {
     @Test
     @DisplayName("ALB-POST-03: POST /albums with a non-JSON Content-Type is not parsed as JSON "
         + "(documented behavior: the fake API silently misinterprets the raw body instead of rejecting it)")
+    @Description("201, but the raw body is not parsed as JSON (documented quirk).")
     @Story("POST - Create with a non-JSON Content-Type")
     @Severity(SeverityLevel.NORMAL)
     void createAlbum_nonJsonContentType_bodyIsNotParsedAsJson() {
-        // REST Assured appends a default charset (ISO-8859-1) to the Content-Type header unless
-        // told not to; that charset alone triggers a different crash (UnsupportedMediaTypeError)
-        // than the one this test targets, so it must be disabled here.
         given()
             .config(RestAssuredConfig.config().encoderConfig(
                 EncoderConfig.encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
@@ -93,6 +97,7 @@ class CreateAlbumTest extends BaseTest {
         + "(KNOWN FRAGILE: pins to the same body-parser/json-server crash as POST-04 in CreatePostTest, "
         + "not a documented 400 contract. If this test starts failing, it likely means upstream added "
         + "input validation - relax this assertion rather than assuming a regression.)")
+    @Description("500 (known fragile - pins to an upstream json-server bug, not a documented contract).")
     @Story("POST - Create with malformed JSON")
     @Severity(SeverityLevel.MINOR)
     void createAlbum_malformedJson_returnsServerError() {

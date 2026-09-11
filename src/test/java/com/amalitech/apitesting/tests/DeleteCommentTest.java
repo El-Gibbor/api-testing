@@ -1,6 +1,7 @@
 package com.amalitech.apitesting.tests;
 
 import com.amalitech.apitesting.base.BaseTest;
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -22,6 +23,7 @@ class DeleteCommentTest extends BaseTest {
 
     @Test
     @DisplayName("COM-DELETE-01: DELETE /comments/{id} removes an existing comment")
+    @Description("200, empty response body.")
     @Story("DELETE - Delete an existing comment")
     @Severity(SeverityLevel.CRITICAL)
     void deleteComment_returnsEmptyBody() {
@@ -38,6 +40,7 @@ class DeleteCommentTest extends BaseTest {
     @Test
     @DisplayName("COM-DELETE-02: DELETE /comments/{id} for a non-existent comment is idempotent "
         + "(documented behavior: the fake API returns 200 regardless of whether the id exists)")
+    @Description("Documented actual behavior of the fake API.")
     @Story("DELETE - Delete a non-existent comment")
     @Severity(SeverityLevel.NORMAL)
     void deleteComment_nonExistentId_stillReturnsOk() {

@@ -1,6 +1,7 @@
 package com.amalitech.apitesting.tests;
 
 import com.amalitech.apitesting.base.BaseTest;
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -22,6 +23,7 @@ class DeleteAlbumTest extends BaseTest {
 
     @Test
     @DisplayName("ALB-DELETE-01: DELETE /albums/{id} removes an existing album")
+    @Description("200, empty response body.")
     @Story("DELETE - Delete an existing album")
     @Severity(SeverityLevel.CRITICAL)
     void deleteAlbum_returnsEmptyBody() {
@@ -38,6 +40,7 @@ class DeleteAlbumTest extends BaseTest {
     @Test
     @DisplayName("ALB-DELETE-02: DELETE /albums/{id} for a non-existent album is idempotent "
         + "(documented behavior: the fake API returns 200 regardless of whether the id exists)")
+    @Description("Documented actual behavior of the fake API.")
     @Story("DELETE - Delete a non-existent album")
     @Severity(SeverityLevel.NORMAL)
     void deleteAlbum_nonExistentId_stillReturnsOk() {

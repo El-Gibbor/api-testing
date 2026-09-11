@@ -2,6 +2,7 @@ package com.amalitech.apitesting.tests;
 
 import com.amalitech.apitesting.base.BaseTest;
 import com.amalitech.apitesting.models.Todo;
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -28,6 +29,7 @@ class GetUserTodosTest extends BaseTest {
 
     @Test
     @DisplayName("NEST-02: GET /users/{id}/todos returns todos belonging to that user")
+    @Description("200, all items reference the parent userId, schema.")
     @Story("GET - Fetch nested todos for a user")
     @Severity(SeverityLevel.NORMAL)
     void getTodosForUser_returnsMatchingTodos() {

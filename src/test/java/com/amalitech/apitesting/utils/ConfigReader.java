@@ -5,9 +5,8 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Resolves environment-specific test configuration: system property, then env var, then
- * {@code config.properties} - letting the suite target different environments without
- * code changes.
+ * Resolves environment-specific test configuration: system property, then env var,
+ * then {@code config.properties}.
  */
 public final class ConfigReader {
 

@@ -228,11 +228,13 @@ so it is treated as one backend-wide bug/quirk pair rather than six independent 
 
 Test results are collected as Allure results (`allure-results/`) during `mvn test` and
 rendered into a browsable HTML report via the Allure Maven plugin. Tests are annotated
-with `@Epic`/`@Feature`/`@Story`/`@Severity` so the report's **Behaviors** tab groups
-results as Epic (`JSONPlaceholder API`) > Feature (one per resource, e.g. `Comments`,
-`Users`) > Story (one per HTTP verb + test-plan case, e.g. "POST - Create a new
-comment", "GET - Fetch nested todos for a user"), with known-fragile tests marked
-`MINOR` severity to separate them from core-contract failures. The `AllureRestAssured`
+with `@Epic`/`@Feature`/`@Story`/`@Severity`/`@Description` so the report's
+**Behaviors** tab groups results as Epic (`JSONPlaceholder API`) > Feature (one per
+resource, e.g. `Comments`, `Users`) > Story (one per HTTP verb + test-plan case, e.g.
+"POST - Create a new comment", "GET - Fetch nested todos for a user"), with each test's
+page showing a Description sourced from its "Key Assertions" entry in the tables above,
+and known-fragile tests marked `MINOR` severity to separate them from core-contract
+failures. The `AllureRestAssured`
 filter (registered in `BaseTest`) additionally attaches each call's full request and
 response - method, URL, headers, body, status, and a `curl` repro - to its test in the
 report, so execution detail is available without re-running anything locally. See the

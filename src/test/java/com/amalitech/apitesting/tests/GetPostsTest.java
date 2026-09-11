@@ -2,6 +2,7 @@ package com.amalitech.apitesting.tests;
 
 import com.amalitech.apitesting.base.BaseTest;
 import com.amalitech.apitesting.models.Post;
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -29,6 +30,7 @@ class GetPostsTest extends BaseTest {
 
     @Test
     @DisplayName("GET-01: GET /posts returns all posts with a valid schema")
+    @Description("200, non-empty array, Content-Type: application/json, schema.")
     @Story("GET - List all posts")
     @Severity(SeverityLevel.CRITICAL)
     void getAllPosts_returnsPostsList() {
@@ -49,6 +51,7 @@ class GetPostsTest extends BaseTest {
 
     @Test
     @DisplayName("GET-02: GET /posts/{id} returns the requested post")
+    @Description("200, body fields match, schema.")
     @Story("GET - Fetch a single post")
     @Severity(SeverityLevel.CRITICAL)
     void getPostById_returnsMatchingPost() {
@@ -73,6 +76,7 @@ class GetPostsTest extends BaseTest {
 
     @Test
     @DisplayName("GET-03: GET /posts/{id} for a non-existent post returns 404")
+    @Description("404.")
     @Story("GET - Fetch a non-existent post")
     @Severity(SeverityLevel.NORMAL)
     void getPostById_nonExistentId_returnsNotFound() {
@@ -87,6 +91,7 @@ class GetPostsTest extends BaseTest {
     @ParameterizedTest(name = "GET /posts/{0} returns 404")
     @ValueSource(strings = {"abc", "0", "-1"})
     @DisplayName("GET-05: GET /posts/{id} returns 404 for invalid ids (non-numeric, zero, negative)")
+    @Description("404 for each case.")
     @Story("GET - Fetch with an invalid id")
     @Severity(SeverityLevel.NORMAL)
     void getPostById_invalidId_returnsNotFound(String invalidId) {
@@ -100,6 +105,7 @@ class GetPostsTest extends BaseTest {
 
     @Test
     @DisplayName("GET-06: GET /posts?userId={id} returns only posts belonging to that user")
+    @Description("200, all items reference the given userId, schema.")
     @Story("GET - Filter posts by query parameter")
     @Severity(SeverityLevel.NORMAL)
     void getPostsByUserId_returnsOnlyMatchingPosts() {

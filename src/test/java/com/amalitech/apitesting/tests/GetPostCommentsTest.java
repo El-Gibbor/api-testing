@@ -2,6 +2,7 @@ package com.amalitech.apitesting.tests;
 
 import com.amalitech.apitesting.base.BaseTest;
 import com.amalitech.apitesting.models.Comment;
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -28,6 +29,7 @@ class GetPostCommentsTest extends BaseTest {
 
     @Test
     @DisplayName("GET-04: GET /posts/{id}/comments returns comments belonging to that post")
+    @Description("200, all items reference the parent postId, schema.")
     @Story("GET - Fetch nested comments for a post")
     @Severity(SeverityLevel.NORMAL)
     void getCommentsForPost_returnsMatchingComments() {

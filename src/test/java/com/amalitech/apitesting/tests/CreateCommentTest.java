@@ -3,6 +3,7 @@ package com.amalitech.apitesting.tests;
 import com.amalitech.apitesting.base.BaseTest;
 import com.amalitech.apitesting.models.Comment;
 import com.amalitech.apitesting.utils.TestDataLoader;
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -28,6 +29,7 @@ class CreateCommentTest extends BaseTest {
 
     @Test
     @DisplayName("COM-POST-01: POST /comments creates a new comment and echoes the submitted fields")
+    @Description("201, response echoes submitted fields, generated id present.")
     @Story("POST - Create a new comment")
     @Severity(SeverityLevel.CRITICAL)
     void createComment_returnsCreatedComment() {
@@ -55,6 +57,7 @@ class CreateCommentTest extends BaseTest {
     @Test
     @DisplayName("COM-POST-02: POST /comments with an empty body still returns 201 with a generated id "
         + "(documented behavior of the fake API, which does not validate payloads)")
+    @Description("Documented actual behavior of the fake API.")
     @Story("POST - Create with an empty body")
     @Severity(SeverityLevel.NORMAL)
     void createComment_emptyBody_stillReturnsCreatedWithGeneratedId() {
@@ -72,6 +75,7 @@ class CreateCommentTest extends BaseTest {
     @Test
     @DisplayName("COM-POST-03: POST /comments with a non-JSON Content-Type is not parsed as JSON "
         + "(documented behavior: the fake API silently misinterprets the raw body instead of rejecting it)")
+    @Description("201, but the raw body is not parsed as JSON (documented quirk).")
     @Story("POST - Create with a non-JSON Content-Type")
     @Severity(SeverityLevel.NORMAL)
     void createComment_nonJsonContentType_bodyIsNotParsedAsJson() {
@@ -95,6 +99,7 @@ class CreateCommentTest extends BaseTest {
         + "(KNOWN FRAGILE: pins to the same body-parser/json-server crash as POST-04 in CreatePostTest, "
         + "not a documented 400 contract. If this test starts failing, it likely means upstream added "
         + "input validation - relax this assertion rather than assuming a regression.)")
+    @Description("500 (known fragile - pins to an upstream json-server bug, not a documented contract).")
     @Story("POST - Create with malformed JSON")
     @Severity(SeverityLevel.MINOR)
     void createComment_malformedJson_returnsServerError() {

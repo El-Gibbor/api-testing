@@ -41,11 +41,13 @@ Or generate and serve it in one step:
 mvn io.qameta.allure:allure-maven:serve
 ```
 
-Tests are annotated with `@Epic`/`@Feature`/`@Story`/`@Severity`, so the report's
-**Behaviors** tab groups results as Epic (`JSONPlaceholder API`) > Feature (one per
-resource, e.g. `Comments`) > Story (one per HTTP verb + test-plan case, e.g.
-"POST - Create with malformed JSON"). Severity marks the known-fragile tests documented
-in `docs/TEST_PLAN.md` as `MINOR` so they stand out from core-contract failures.
+Tests are annotated with `@Epic`/`@Feature`/`@Story`/`@Severity`/`@Description`, so the
+report's **Behaviors** tab groups results as Epic (`JSONPlaceholder API`) > Feature (one
+per resource, e.g. `Comments`) > Story (one per HTTP verb + test-plan case, e.g.
+"POST - Create with malformed JSON"), and each test's page shows a **Description** of
+its expected outcome (the same text as its "Key Assertions" entry in
+`docs/TEST_PLAN.md`). Severity marks the known-fragile tests documented in
+`docs/TEST_PLAN.md` as `MINOR` so they stand out from core-contract failures.
 
 Every test's page also has a **Request**/**Response** attachment (method, URL, headers,
 body, status, and a ready-to-run `curl` repro), via the `AllureRestAssured` filter

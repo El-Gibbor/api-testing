@@ -2,6 +2,7 @@ package com.amalitech.apitesting.tests;
 
 import com.amalitech.apitesting.base.BaseTest;
 import com.amalitech.apitesting.models.Comment;
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -29,6 +30,7 @@ class GetCommentsTest extends BaseTest {
 
     @Test
     @DisplayName("COM-GET-01: GET /comments returns all comments with a valid schema")
+    @Description("200, non-empty array, Content-Type: application/json, schema.")
     @Story("GET - List all comments")
     @Severity(SeverityLevel.CRITICAL)
     void getAllComments_returnsCommentsList() {
@@ -49,6 +51,7 @@ class GetCommentsTest extends BaseTest {
 
     @Test
     @DisplayName("COM-GET-02: GET /comments/{id} returns the requested comment")
+    @Description("200, body fields match, schema.")
     @Story("GET - Fetch a single comment")
     @Severity(SeverityLevel.CRITICAL)
     void getCommentById_returnsMatchingComment() {
@@ -74,6 +77,7 @@ class GetCommentsTest extends BaseTest {
 
     @Test
     @DisplayName("COM-GET-03: GET /comments/{id} for a non-existent comment returns 404")
+    @Description("404.")
     @Story("GET - Fetch a non-existent comment")
     @Severity(SeverityLevel.NORMAL)
     void getCommentById_nonExistentId_returnsNotFound() {
@@ -88,6 +92,7 @@ class GetCommentsTest extends BaseTest {
     @ParameterizedTest(name = "GET /comments/{0} returns 404")
     @ValueSource(strings = {"abc", "0", "-1"})
     @DisplayName("COM-GET-04: GET /comments/{id} returns 404 for invalid ids (non-numeric, zero, negative)")
+    @Description("404 for each case.")
     @Story("GET - Fetch with an invalid id")
     @Severity(SeverityLevel.NORMAL)
     void getCommentById_invalidId_returnsNotFound(String invalidId) {
@@ -101,6 +106,7 @@ class GetCommentsTest extends BaseTest {
 
     @Test
     @DisplayName("COM-GET-05: GET /comments?postId={id} returns only comments belonging to that post")
+    @Description("200, all items reference the given postId, schema.")
     @Story("GET - Filter comments by query parameter")
     @Severity(SeverityLevel.NORMAL)
     void getCommentsByPostId_returnsOnlyMatchingComments() {

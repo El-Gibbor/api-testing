@@ -2,6 +2,7 @@ package com.amalitech.apitesting.tests;
 
 import com.amalitech.apitesting.base.BaseTest;
 import com.amalitech.apitesting.models.Photo;
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -28,6 +29,7 @@ class GetAlbumPhotosTest extends BaseTest {
 
     @Test
     @DisplayName("NEST-04: GET /albums/{id}/photos returns photos belonging to that album")
+    @Description("200, all items reference the parent albumId, schema.")
     @Story("GET - Fetch nested photos for an album")
     @Severity(SeverityLevel.NORMAL)
     void getPhotosForAlbum_returnsMatchingPhotos() {

@@ -2,6 +2,7 @@ package com.amalitech.apitesting.tests;
 
 import com.amalitech.apitesting.base.BaseTest;
 import com.amalitech.apitesting.models.Photo;
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -29,6 +30,7 @@ class GetPhotosTest extends BaseTest {
 
     @Test
     @DisplayName("PHO-GET-01: GET /photos returns all photos with a valid schema")
+    @Description("200, non-empty array, Content-Type: application/json, schema.")
     @Story("GET - List all photos")
     @Severity(SeverityLevel.CRITICAL)
     void getAllPhotos_returnsPhotosList() {
@@ -49,6 +51,7 @@ class GetPhotosTest extends BaseTest {
 
     @Test
     @DisplayName("PHO-GET-02: GET /photos/{id} returns the requested photo")
+    @Description("200, body fields match, schema.")
     @Story("GET - Fetch a single photo")
     @Severity(SeverityLevel.CRITICAL)
     void getPhotoById_returnsMatchingPhoto() {
@@ -74,6 +77,7 @@ class GetPhotosTest extends BaseTest {
 
     @Test
     @DisplayName("PHO-GET-03: GET /photos/{id} for a non-existent photo returns 404")
+    @Description("404.")
     @Story("GET - Fetch a non-existent photo")
     @Severity(SeverityLevel.NORMAL)
     void getPhotoById_nonExistentId_returnsNotFound() {
@@ -88,6 +92,7 @@ class GetPhotosTest extends BaseTest {
     @ParameterizedTest(name = "GET /photos/{0} returns 404")
     @ValueSource(strings = {"abc", "0", "-1"})
     @DisplayName("PHO-GET-04: GET /photos/{id} returns 404 for invalid ids (non-numeric, zero, negative)")
+    @Description("404 for each case.")
     @Story("GET - Fetch with an invalid id")
     @Severity(SeverityLevel.NORMAL)
     void getPhotoById_invalidId_returnsNotFound(String invalidId) {
@@ -101,6 +106,7 @@ class GetPhotosTest extends BaseTest {
 
     @Test
     @DisplayName("PHO-GET-05: GET /photos?albumId={id} returns only photos belonging to that album")
+    @Description("200, all items reference the given albumId, schema.")
     @Story("GET - Filter photos by query parameter")
     @Severity(SeverityLevel.NORMAL)
     void getPhotosByAlbumId_returnsOnlyMatchingPhotos() {

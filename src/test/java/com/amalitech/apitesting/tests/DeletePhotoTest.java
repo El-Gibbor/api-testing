@@ -1,6 +1,7 @@
 package com.amalitech.apitesting.tests;
 
 import com.amalitech.apitesting.base.BaseTest;
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -22,6 +23,7 @@ class DeletePhotoTest extends BaseTest {
 
     @Test
     @DisplayName("PHO-DELETE-01: DELETE /photos/{id} removes an existing photo")
+    @Description("200, empty response body.")
     @Story("DELETE - Delete an existing photo")
     @Severity(SeverityLevel.CRITICAL)
     void deletePhoto_returnsEmptyBody() {
@@ -38,6 +40,7 @@ class DeletePhotoTest extends BaseTest {
     @Test
     @DisplayName("PHO-DELETE-02: DELETE /photos/{id} for a non-existent photo is idempotent "
         + "(documented behavior: the fake API returns 200 regardless of whether the id exists)")
+    @Description("Documented actual behavior of the fake API.")
     @Story("DELETE - Delete a non-existent photo")
     @Severity(SeverityLevel.NORMAL)
     void deletePhoto_nonExistentId_stillReturnsOk() {

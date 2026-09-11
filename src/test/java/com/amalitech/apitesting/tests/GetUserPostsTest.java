@@ -2,6 +2,7 @@ package com.amalitech.apitesting.tests;
 
 import com.amalitech.apitesting.base.BaseTest;
 import com.amalitech.apitesting.models.Post;
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -28,6 +29,7 @@ class GetUserPostsTest extends BaseTest {
 
     @Test
     @DisplayName("NEST-03: GET /users/{id}/posts returns posts belonging to that user")
+    @Description("200, all items reference the parent userId, schema.")
     @Story("GET - Fetch nested posts for a user")
     @Severity(SeverityLevel.NORMAL)
     void getPostsForUser_returnsMatchingPosts() {

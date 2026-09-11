@@ -1,6 +1,7 @@
 package com.amalitech.apitesting.tests;
 
 import com.amalitech.apitesting.base.BaseTest;
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -22,6 +23,7 @@ class DeletePostTest extends BaseTest {
 
     @Test
     @DisplayName("DELETE-01: DELETE /posts/{id} removes an existing post")
+    @Description("200, empty response body.")
     @Story("DELETE - Delete an existing post")
     @Severity(SeverityLevel.CRITICAL)
     void deletePost_returnsEmptyBody() {
@@ -38,6 +40,7 @@ class DeletePostTest extends BaseTest {
     @Test
     @DisplayName("DELETE-02: DELETE /posts/{id} for a non-existent post is idempotent "
         + "(documented behavior: the fake API returns 200 regardless of whether the id exists)")
+    @Description("Documented actual behavior of the fake API.")
     @Story("DELETE - Delete a non-existent post")
     @Severity(SeverityLevel.NORMAL)
     void deletePost_nonExistentId_stillReturnsOk() {

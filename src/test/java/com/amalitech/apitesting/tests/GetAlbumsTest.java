@@ -2,6 +2,7 @@ package com.amalitech.apitesting.tests;
 
 import com.amalitech.apitesting.base.BaseTest;
 import com.amalitech.apitesting.models.Album;
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -29,6 +30,7 @@ class GetAlbumsTest extends BaseTest {
 
     @Test
     @DisplayName("ALB-GET-01: GET /albums returns all albums with a valid schema")
+    @Description("200, non-empty array, Content-Type: application/json, schema.")
     @Story("GET - List all albums")
     @Severity(SeverityLevel.CRITICAL)
     void getAllAlbums_returnsAlbumsList() {
@@ -49,6 +51,7 @@ class GetAlbumsTest extends BaseTest {
 
     @Test
     @DisplayName("ALB-GET-02: GET /albums/{id} returns the requested album")
+    @Description("200, body fields match, schema.")
     @Story("GET - Fetch a single album")
     @Severity(SeverityLevel.CRITICAL)
     void getAlbumById_returnsMatchingAlbum() {
@@ -72,6 +75,7 @@ class GetAlbumsTest extends BaseTest {
 
     @Test
     @DisplayName("ALB-GET-03: GET /albums/{id} for a non-existent album returns 404")
+    @Description("404.")
     @Story("GET - Fetch a non-existent album")
     @Severity(SeverityLevel.NORMAL)
     void getAlbumById_nonExistentId_returnsNotFound() {
@@ -86,6 +90,7 @@ class GetAlbumsTest extends BaseTest {
     @ParameterizedTest(name = "GET /albums/{0} returns 404")
     @ValueSource(strings = {"abc", "0", "-1"})
     @DisplayName("ALB-GET-04: GET /albums/{id} returns 404 for invalid ids (non-numeric, zero, negative)")
+    @Description("404 for each case.")
     @Story("GET - Fetch with an invalid id")
     @Severity(SeverityLevel.NORMAL)
     void getAlbumById_invalidId_returnsNotFound(String invalidId) {
@@ -99,6 +104,7 @@ class GetAlbumsTest extends BaseTest {
 
     @Test
     @DisplayName("ALB-GET-05: GET /albums?userId={id} returns only albums belonging to that user")
+    @Description("200, all items reference the given userId, schema.")
     @Story("GET - Filter albums by query parameter")
     @Severity(SeverityLevel.NORMAL)
     void getAlbumsByUserId_returnsOnlyMatchingAlbums() {

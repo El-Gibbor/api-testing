@@ -3,6 +3,7 @@ package com.amalitech.apitesting.tests;
 import com.amalitech.apitesting.base.BaseTest;
 import com.amalitech.apitesting.models.User;
 import com.amalitech.apitesting.utils.TestDataLoader;
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -26,6 +27,7 @@ class UpdateUserTest extends BaseTest {
 
     @Test
     @DisplayName("USR-PUT-01: PUT /users/{id} fully updates an existing user")
+    @Description("200, response reflects updated fields.")
     @Story("PUT - Fully update an existing user")
     @Severity(SeverityLevel.CRITICAL)
     void updateUser_returnsUpdatedUser() {
@@ -57,6 +59,7 @@ class UpdateUserTest extends BaseTest {
         + "(KNOWN FRAGILE: same underlying backend crash as PUT-02/PUT-03 in UpdatePostTest - not a "
         + "documented contract. If this starts failing, it likely means upstream fixed the bug - relax "
         + "this assertion rather than assuming a regression.)")
+    @Description("500 (known fragile - pins to an upstream json-server bug, not a documented contract).")
     @Story("PUT - Update a non-existent user")
     @Severity(SeverityLevel.MINOR)
     void updateUser_nonExistentId_returnsServerError() {

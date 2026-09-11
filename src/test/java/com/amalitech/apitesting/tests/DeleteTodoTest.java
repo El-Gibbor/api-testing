@@ -1,6 +1,7 @@
 package com.amalitech.apitesting.tests;
 
 import com.amalitech.apitesting.base.BaseTest;
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -22,6 +23,7 @@ class DeleteTodoTest extends BaseTest {
 
     @Test
     @DisplayName("TOD-DELETE-01: DELETE /todos/{id} removes an existing todo")
+    @Description("200, empty response body.")
     @Story("DELETE - Delete an existing todo")
     @Severity(SeverityLevel.CRITICAL)
     void deleteTodo_returnsEmptyBody() {
@@ -38,6 +40,7 @@ class DeleteTodoTest extends BaseTest {
     @Test
     @DisplayName("TOD-DELETE-02: DELETE /todos/{id} for a non-existent todo is idempotent "
         + "(documented behavior: the fake API returns 200 regardless of whether the id exists)")
+    @Description("Documented actual behavior of the fake API.")
     @Story("DELETE - Delete a non-existent todo")
     @Severity(SeverityLevel.NORMAL)
     void deleteTodo_nonExistentId_stillReturnsOk() {
