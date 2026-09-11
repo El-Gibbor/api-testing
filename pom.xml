@@ -77,6 +77,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Attaches each request/response (method, URL, headers, body) to the Allure report -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-rest-assured</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Assertions -->
         <dependency>
             <groupId>org.hamcrest</groupId>
