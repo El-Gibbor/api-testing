@@ -1,0 +1,22 @@
+{
+  "name": "Ada Lovelace",
+  "username": "ada.lovelace",
+  "email": "ada@example.com",
+  "address": {
+    "street": "Analytical Ave",
+    "suite": "Suite 1",
+    "city": "Loveland",
+    "zipcode": "12345-6789",
+    "geo": {
+      "lat": "0.0000",
+      "lng": "0.0000"
+    }
+  },
+  "phone": "1-555-000-0000",
+  "website": "ada.example.com",
+  "company": {
+    "name": "REST Assured Inc",
+    "catchPhrase": "Testing the untestable",
+    "bs": "synergize scalable schemas"
+  }
+}
