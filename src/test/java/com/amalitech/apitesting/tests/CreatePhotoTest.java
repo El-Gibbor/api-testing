@@ -8,6 +8,8 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
+import io.restassured.config.EncoderConfig;
+import io.restassured.config.RestAssuredConfig;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 /**
- * PHO-POST-01, PHO-POST-02 from docs/TEST_PLAN.md.
+ * PHO-POST-01, PHO-POST-02, PHO-POST-03, PHO-POST-04 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
 @Feature("POST /photos")
@@ -65,5 +67,43 @@ class CreatePhotoTest extends BaseTest {
             .statusCode(201)
             .header("Location", containsString("/photos/"))
             .body("id", notNullValue());
+    }
+
+    @Test
+    @DisplayName("PHO-POST-03: POST /photos with a non-JSON Content-Type is not parsed as JSON "
+        + "(documented behavior: the fake API silently misinterprets the raw body instead of rejecting it)")
+    @Story("Create with a non-JSON Content-Type")
+    @Severity(SeverityLevel.NORMAL)
+    void createPhoto_nonJsonContentType_bodyIsNotParsedAsJson() {
+        // REST Assured appends a default charset (ISO-8859-1) to the Content-Type header unless
+        // told not to; that charset alone triggers a different crash (UnsupportedMediaTypeError)
+        // than the one this test targets, so it must be disabled here.
+        given()
+            .config(RestAssuredConfig.config().encoderConfig(
+                EncoderConfig.encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
+            .contentType("application/x-www-form-urlencoded")
+            .body("{\"title\":\"x\"}")
+        .when()
+            .post("/photos")
+        .then()
+            .statusCode(201)
+            .body("id", notNullValue());
+    }
+
+    @Test
+    @DisplayName("PHO-POST-04: POST /photos with malformed JSON returns an unhandled server error "
+        + "(KNOWN FRAGILE: pins to the same body-parser/json-server crash as POST-04 in CreatePostTest, "
+        + "not a documented 400 contract. If this test starts failing, it likely means upstream added "
+        + "input validation - relax this assertion rather than assuming a regression.)")
+    @Story("Create with malformed JSON")
+    @Severity(SeverityLevel.MINOR)
+    void createPhoto_malformedJson_returnsServerError() {
+        given()
+            .contentType(ContentType.JSON)
+            .body("{invalid json")
+        .when()
+            .post("/photos")
+        .then()
+            .statusCode(500);
     }
 }

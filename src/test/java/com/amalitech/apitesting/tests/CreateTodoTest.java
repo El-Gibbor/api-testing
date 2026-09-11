@@ -8,6 +8,8 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
+import io.restassured.config.EncoderConfig;
+import io.restassured.config.RestAssuredConfig;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 /**
- * TOD-POST-01, TOD-POST-02 from docs/TEST_PLAN.md.
+ * TOD-POST-01, TOD-POST-02, TOD-POST-03, TOD-POST-04 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
 @Feature("POST /todos")
@@ -64,5 +66,43 @@ class CreateTodoTest extends BaseTest {
             .statusCode(201)
             .header("Location", containsString("/todos/"))
             .body("id", notNullValue());
+    }
+
+    @Test
+    @DisplayName("TOD-POST-03: POST /todos with a non-JSON Content-Type is not parsed as JSON "
+        + "(documented behavior: the fake API silently misinterprets the raw body instead of rejecting it)")
+    @Story("Create with a non-JSON Content-Type")
+    @Severity(SeverityLevel.NORMAL)
+    void createTodo_nonJsonContentType_bodyIsNotParsedAsJson() {
+        // REST Assured appends a default charset (ISO-8859-1) to the Content-Type header unless
+        // told not to; that charset alone triggers a different crash (UnsupportedMediaTypeError)
+        // than the one this test targets, so it must be disabled here.
+        given()
+            .config(RestAssuredConfig.config().encoderConfig(
+                EncoderConfig.encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
+            .contentType("application/x-www-form-urlencoded")
+            .body("{\"title\":\"x\"}")
+        .when()
+            .post("/todos")
+        .then()
+            .statusCode(201)
+            .body("id", notNullValue());
+    }
+
+    @Test
+    @DisplayName("TOD-POST-04: POST /todos with malformed JSON returns an unhandled server error "
+        + "(KNOWN FRAGILE: pins to the same body-parser/json-server crash as POST-04 in CreatePostTest, "
+        + "not a documented 400 contract. If this test starts failing, it likely means upstream added "
+        + "input validation - relax this assertion rather than assuming a regression.)")
+    @Story("Create with malformed JSON")
+    @Severity(SeverityLevel.MINOR)
+    void createTodo_malformedJson_returnsServerError() {
+        given()
+            .contentType(ContentType.JSON)
+            .body("{invalid json")
+        .when()
+            .post("/todos")
+        .then()
+            .statusCode(500);
     }
 }
