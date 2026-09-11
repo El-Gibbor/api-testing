@@ -5,17 +5,9 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Resolves environment-specific test configuration.
- * <p>
- * Resolution order for each key (highest priority first):
- * <ol>
- *     <li>JVM system property, e.g. {@code -Dbase.uri=https://...}</li>
- *     <li>Environment variable, e.g. {@code BASE_URI=https://...}
- *     (property name upper-cased, dots replaced with underscores)</li>
- *     <li>{@code config.properties} on the test classpath</li>
- * </ol>
- * This lets the same test suite target different environments (local, CI, Docker)
- * without any code changes.
+ * Resolves environment-specific test configuration: system property, then env var, then
+ * {@code config.properties} - letting the suite target different environments without
+ * code changes.
  */
 public final class ConfigReader {
 
