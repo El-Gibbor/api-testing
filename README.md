@@ -55,7 +55,10 @@ docker run --rm -v "$(pwd)/target/allure-results:/app/target/allure-results" api
 ```
 
 The container runs `mvn test` against the default base URL; override it with
-`-e BASE_URI=...` on `docker run`.
+`-e BASE_URI=...` on `docker run`. The image is a multi-stage build on the Alpine
+variant of the Maven/Temurin image: a `builder` stage resolves dependencies and
+pre-compiles the test sources into a warm local Maven repo, and the final stage reuses
+that repo so starting the container doesn't re-resolve anything from the network.
 
 ## CI/CD
 
