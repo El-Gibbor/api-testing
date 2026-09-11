@@ -1,0 +1,7 @@
+{
+  "id": 1,
+  "albumId": 1,
+  "title": "Updated title via REST Assured",
+  "url": "https://via.placeholder.com/600/111111",
+  "thumbnailUrl": "https://via.placeholder.com/150/111111"
+}
