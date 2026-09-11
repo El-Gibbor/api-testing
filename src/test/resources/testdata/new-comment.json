@@ -1,0 +1,6 @@
+{
+  "postId": 1,
+  "name": "Exploring REST Assured",
+  "email": "restassured@example.com",
+  "body": "A sample comment payload used for POST request test fixtures."
+}

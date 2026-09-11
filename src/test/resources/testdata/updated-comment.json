@@ -1,0 +1,7 @@
+{
+  "id": 1,
+  "postId": 1,
+  "name": "Updated comment via REST Assured",
+  "email": "updated@example.com",
+  "body": "Updated body content for PUT request test fixtures."
+}
