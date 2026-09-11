@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeAll;
 public abstract class BaseTest {
 
     @BeforeAll
+    @SuppressWarnings("unused") // invoked reflectively by JUnit, not called directly from source
     static void setUpBaseConfig() {
         RestAssured.baseURI = ConfigReader.getBaseUri();
         RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
