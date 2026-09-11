@@ -21,12 +21,12 @@ import static org.hamcrest.Matchers.equalTo;
  * USR-PUT-01, USR-PUT-02 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("PUT /users/{id}")
+@Feature("Users")
 class UpdateUserTest extends BaseTest {
 
     @Test
     @DisplayName("USR-PUT-01: PUT /users/{id} fully updates an existing user")
-    @Story("Fully update an existing user")
+    @Story("PUT - Fully update an existing user")
     @Severity(SeverityLevel.CRITICAL)
     void updateUser_returnsUpdatedUser() {
         User updatedUser = TestDataLoader.load("updated-user.json", User.class);
@@ -57,7 +57,7 @@ class UpdateUserTest extends BaseTest {
         + "(KNOWN FRAGILE: same underlying backend crash as PUT-02/PUT-03 in UpdatePostTest - not a "
         + "documented contract. If this starts failing, it likely means upstream fixed the bug - relax "
         + "this assertion rather than assuming a regression.)")
-    @Story("Update a non-existent user")
+    @Story("PUT - Update a non-existent user")
     @Severity(SeverityLevel.MINOR)
     void updateUser_nonExistentId_returnsServerError() {
         given()

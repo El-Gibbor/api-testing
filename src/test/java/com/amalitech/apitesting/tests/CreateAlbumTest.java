@@ -23,12 +23,12 @@ import static org.hamcrest.Matchers.*;
  * ALB-POST-01, ALB-POST-02, ALB-POST-03, ALB-POST-04 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("POST /albums")
+@Feature("Albums")
 class CreateAlbumTest extends BaseTest {
 
     @Test
     @DisplayName("ALB-POST-01: POST /albums creates a new album and echoes the submitted fields")
-    @Story("Create a new album")
+    @Story("POST - Create a new album")
     @Severity(SeverityLevel.CRITICAL)
     void createAlbum_returnsCreatedAlbum() {
         Album newAlbum = TestDataLoader.load("new-album.json", Album.class);
@@ -53,7 +53,7 @@ class CreateAlbumTest extends BaseTest {
     @Test
     @DisplayName("ALB-POST-02: POST /albums with an empty body still returns 201 with a generated id "
         + "(documented behavior of the fake API, which does not validate payloads)")
-    @Story("Create with an empty body")
+    @Story("POST - Create with an empty body")
     @Severity(SeverityLevel.NORMAL)
     void createAlbum_emptyBody_stillReturnsCreatedWithGeneratedId() {
         given()
@@ -70,7 +70,7 @@ class CreateAlbumTest extends BaseTest {
     @Test
     @DisplayName("ALB-POST-03: POST /albums with a non-JSON Content-Type is not parsed as JSON "
         + "(documented behavior: the fake API silently misinterprets the raw body instead of rejecting it)")
-    @Story("Create with a non-JSON Content-Type")
+    @Story("POST - Create with a non-JSON Content-Type")
     @Severity(SeverityLevel.NORMAL)
     void createAlbum_nonJsonContentType_bodyIsNotParsedAsJson() {
         // REST Assured appends a default charset (ISO-8859-1) to the Content-Type header unless
@@ -93,7 +93,7 @@ class CreateAlbumTest extends BaseTest {
         + "(KNOWN FRAGILE: pins to the same body-parser/json-server crash as POST-04 in CreatePostTest, "
         + "not a documented 400 contract. If this test starts failing, it likely means upstream added "
         + "input validation - relax this assertion rather than assuming a regression.)")
-    @Story("Create with malformed JSON")
+    @Story("POST - Create with malformed JSON")
     @Severity(SeverityLevel.MINOR)
     void createAlbum_malformedJson_returnsServerError() {
         given()

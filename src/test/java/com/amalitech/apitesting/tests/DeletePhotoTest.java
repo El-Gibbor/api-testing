@@ -17,12 +17,12 @@ import static org.hamcrest.Matchers.equalTo;
  * PHO-DELETE-01, PHO-DELETE-02 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("DELETE /photos/{id}")
+@Feature("Photos")
 class DeletePhotoTest extends BaseTest {
 
     @Test
     @DisplayName("PHO-DELETE-01: DELETE /photos/{id} removes an existing photo")
-    @Story("Delete an existing photo")
+    @Story("DELETE - Delete an existing photo")
     @Severity(SeverityLevel.CRITICAL)
     void deletePhoto_returnsEmptyBody() {
         given()
@@ -38,7 +38,7 @@ class DeletePhotoTest extends BaseTest {
     @Test
     @DisplayName("PHO-DELETE-02: DELETE /photos/{id} for a non-existent photo is idempotent "
         + "(documented behavior: the fake API returns 200 regardless of whether the id exists)")
-    @Story("Delete a non-existent photo")
+    @Story("DELETE - Delete a non-existent photo")
     @Severity(SeverityLevel.NORMAL)
     void deletePhoto_nonExistentId_stillReturnsOk() {
         given()

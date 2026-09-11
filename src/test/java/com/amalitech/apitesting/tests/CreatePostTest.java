@@ -23,12 +23,12 @@ import static org.hamcrest.Matchers.*;
  * POST-01, POST-02, POST-03, POST-04 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("POST /posts")
+@Feature("Posts")
 class CreatePostTest extends BaseTest {
 
     @Test
     @DisplayName("POST-01: POST /posts creates a new post and echoes the submitted fields")
-    @Story("Create a new post")
+    @Story("POST - Create a new post")
     @Severity(SeverityLevel.CRITICAL)
     void createPost_returnsCreatedPost() {
         Post newPost = TestDataLoader.load("new-post.json", Post.class);
@@ -54,7 +54,7 @@ class CreatePostTest extends BaseTest {
     @Test
     @DisplayName("POST-02: POST /posts with an empty body still returns 201 with a generated id "
         + "(documented behavior of the fake API, which does not validate payloads)")
-    @Story("Create with an empty body")
+    @Story("POST - Create with an empty body")
     @Severity(SeverityLevel.NORMAL)
     void createPost_emptyBody_stillReturnsCreatedWithGeneratedId() {
         given()
@@ -71,7 +71,7 @@ class CreatePostTest extends BaseTest {
     @Test
     @DisplayName("POST-03: POST /posts with a non-JSON Content-Type is not parsed as JSON "
         + "(documented behavior: the fake API silently misinterprets the raw body instead of rejecting it)")
-    @Story("Create with a non-JSON Content-Type")
+    @Story("POST - Create with a non-JSON Content-Type")
     @Severity(SeverityLevel.NORMAL)
     void createPost_nonJsonContentType_bodyIsNotParsedAsJson() {
         // REST Assured appends a default charset (ISO-8859-1) to the Content-Type header unless
@@ -94,7 +94,7 @@ class CreatePostTest extends BaseTest {
         + "(KNOWN FRAGILE: pins to a body-parser/json-server crash, not a documented 400 contract. "
         + "If this test starts failing, it likely means upstream added input validation - relax "
         + "this assertion rather than assuming a regression.)")
-    @Story("Create with malformed JSON")
+    @Story("POST - Create with malformed JSON")
     @Severity(SeverityLevel.MINOR)
     void createPost_malformedJson_returnsServerError() {
         given()

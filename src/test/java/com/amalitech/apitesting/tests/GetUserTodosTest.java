@@ -23,12 +23,12 @@ import static org.hamcrest.Matchers.is;
  * NEST-02 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("GET /users/{id}/todos")
+@Feature("Users")
 class GetUserTodosTest extends BaseTest {
 
     @Test
     @DisplayName("NEST-02: GET /users/{id}/todos returns todos belonging to that user")
-    @Story("Fetch nested todos for a user")
+    @Story("GET - Fetch nested todos for a user")
     @Severity(SeverityLevel.NORMAL)
     void getTodosForUser_returnsMatchingTodos() {
         int userId = 1;

@@ -21,12 +21,12 @@ import static org.hamcrest.Matchers.equalTo;
  * PHO-PUT-01, PHO-PUT-02 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("PUT /photos/{id}")
+@Feature("Photos")
 class UpdatePhotoTest extends BaseTest {
 
     @Test
     @DisplayName("PHO-PUT-01: PUT /photos/{id} fully updates an existing photo")
-    @Story("Fully update an existing photo")
+    @Story("PUT - Fully update an existing photo")
     @Severity(SeverityLevel.CRITICAL)
     void updatePhoto_returnsUpdatedPhoto() {
         Photo updatedPhoto = TestDataLoader.load("updated-photo.json", Photo.class);
@@ -56,7 +56,7 @@ class UpdatePhotoTest extends BaseTest {
         + "(KNOWN FRAGILE: same underlying backend crash as PUT-02/PUT-03 in UpdatePostTest - not a "
         + "documented contract. If this starts failing, it likely means upstream fixed the bug - relax "
         + "this assertion rather than assuming a regression.)")
-    @Story("Update a non-existent photo")
+    @Story("PUT - Update a non-existent photo")
     @Severity(SeverityLevel.MINOR)
     void updatePhoto_nonExistentId_returnsServerError() {
         given()

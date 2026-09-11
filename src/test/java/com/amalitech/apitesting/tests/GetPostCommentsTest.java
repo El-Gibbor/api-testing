@@ -23,12 +23,12 @@ import static org.hamcrest.Matchers.is;
  * GET-04 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("GET /posts/{id}/comments")
+@Feature("Posts")
 class GetPostCommentsTest extends BaseTest {
 
     @Test
     @DisplayName("GET-04: GET /posts/{id}/comments returns comments belonging to that post")
-    @Story("Fetch nested comments for a post")
+    @Story("GET - Fetch nested comments for a post")
     @Severity(SeverityLevel.NORMAL)
     void getCommentsForPost_returnsMatchingComments() {
         int postId = 1;

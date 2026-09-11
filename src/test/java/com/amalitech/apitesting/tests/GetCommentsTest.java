@@ -24,12 +24,12 @@ import static org.hamcrest.Matchers.*;
  * COM-GET-01, COM-GET-02, COM-GET-03, COM-GET-04, COM-GET-05 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("GET /comments")
+@Feature("Comments")
 class GetCommentsTest extends BaseTest {
 
     @Test
     @DisplayName("COM-GET-01: GET /comments returns all comments with a valid schema")
-    @Story("List all comments")
+    @Story("GET - List all comments")
     @Severity(SeverityLevel.CRITICAL)
     void getAllComments_returnsCommentsList() {
         Comment[] comments = given()
@@ -49,7 +49,7 @@ class GetCommentsTest extends BaseTest {
 
     @Test
     @DisplayName("COM-GET-02: GET /comments/{id} returns the requested comment")
-    @Story("Fetch a single comment")
+    @Story("GET - Fetch a single comment")
     @Severity(SeverityLevel.CRITICAL)
     void getCommentById_returnsMatchingComment() {
         int commentId = 1;
@@ -74,7 +74,7 @@ class GetCommentsTest extends BaseTest {
 
     @Test
     @DisplayName("COM-GET-03: GET /comments/{id} for a non-existent comment returns 404")
-    @Story("Fetch a non-existent comment")
+    @Story("GET - Fetch a non-existent comment")
     @Severity(SeverityLevel.NORMAL)
     void getCommentById_nonExistentId_returnsNotFound() {
         given()
@@ -88,7 +88,7 @@ class GetCommentsTest extends BaseTest {
     @ParameterizedTest(name = "GET /comments/{0} returns 404")
     @ValueSource(strings = {"abc", "0", "-1"})
     @DisplayName("COM-GET-04: GET /comments/{id} returns 404 for invalid ids (non-numeric, zero, negative)")
-    @Story("Fetch with an invalid id")
+    @Story("GET - Fetch with an invalid id")
     @Severity(SeverityLevel.NORMAL)
     void getCommentById_invalidId_returnsNotFound(String invalidId) {
         given()
@@ -101,7 +101,7 @@ class GetCommentsTest extends BaseTest {
 
     @Test
     @DisplayName("COM-GET-05: GET /comments?postId={id} returns only comments belonging to that post")
-    @Story("Filter comments by query parameter")
+    @Story("GET - Filter comments by query parameter")
     @Severity(SeverityLevel.NORMAL)
     void getCommentsByPostId_returnsOnlyMatchingComments() {
         int postId = 1;

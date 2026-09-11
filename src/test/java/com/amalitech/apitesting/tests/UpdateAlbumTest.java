@@ -21,12 +21,12 @@ import static org.hamcrest.Matchers.equalTo;
  * ALB-PUT-01, ALB-PUT-02 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("PUT /albums/{id}")
+@Feature("Albums")
 class UpdateAlbumTest extends BaseTest {
 
     @Test
     @DisplayName("ALB-PUT-01: PUT /albums/{id} fully updates an existing album")
-    @Story("Fully update an existing album")
+    @Story("PUT - Fully update an existing album")
     @Severity(SeverityLevel.CRITICAL)
     void updateAlbum_returnsUpdatedAlbum() {
         Album updatedAlbum = TestDataLoader.load("updated-album.json", Album.class);
@@ -54,7 +54,7 @@ class UpdateAlbumTest extends BaseTest {
         + "(KNOWN FRAGILE: same underlying backend crash as PUT-02/PUT-03 in UpdatePostTest - not a "
         + "documented contract. If this starts failing, it likely means upstream fixed the bug - relax "
         + "this assertion rather than assuming a regression.)")
-    @Story("Update a non-existent album")
+    @Story("PUT - Update a non-existent album")
     @Severity(SeverityLevel.MINOR)
     void updateAlbum_nonExistentId_returnsServerError() {
         given()

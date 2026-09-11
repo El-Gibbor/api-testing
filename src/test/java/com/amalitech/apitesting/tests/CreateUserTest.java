@@ -23,12 +23,12 @@ import static org.hamcrest.Matchers.*;
  * USR-POST-01, USR-POST-02, USR-POST-03, USR-POST-04 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("POST /users")
+@Feature("Users")
 class CreateUserTest extends BaseTest {
 
     @Test
     @DisplayName("USR-POST-01: POST /users creates a new user and echoes the submitted fields")
-    @Story("Create a new user")
+    @Story("POST - Create a new user")
     @Severity(SeverityLevel.CRITICAL)
     void createUser_returnsCreatedUser() {
         User newUser = TestDataLoader.load("new-user.json", User.class);
@@ -56,7 +56,7 @@ class CreateUserTest extends BaseTest {
     @Test
     @DisplayName("USR-POST-02: POST /users with an empty body still returns 201 with a generated id "
         + "(documented behavior of the fake API, which does not validate payloads)")
-    @Story("Create with an empty body")
+    @Story("POST - Create with an empty body")
     @Severity(SeverityLevel.NORMAL)
     void createUser_emptyBody_stillReturnsCreatedWithGeneratedId() {
         given()
@@ -73,7 +73,7 @@ class CreateUserTest extends BaseTest {
     @Test
     @DisplayName("USR-POST-03: POST /users with a non-JSON Content-Type is not parsed as JSON "
         + "(documented behavior: the fake API silently misinterprets the raw body instead of rejecting it)")
-    @Story("Create with a non-JSON Content-Type")
+    @Story("POST - Create with a non-JSON Content-Type")
     @Severity(SeverityLevel.NORMAL)
     void createUser_nonJsonContentType_bodyIsNotParsedAsJson() {
         // REST Assured appends a default charset (ISO-8859-1) to the Content-Type header unless
@@ -96,7 +96,7 @@ class CreateUserTest extends BaseTest {
         + "(KNOWN FRAGILE: pins to the same body-parser/json-server crash as POST-04 in CreatePostTest, "
         + "not a documented 400 contract. If this test starts failing, it likely means upstream added "
         + "input validation - relax this assertion rather than assuming a regression.)")
-    @Story("Create with malformed JSON")
+    @Story("POST - Create with malformed JSON")
     @Severity(SeverityLevel.MINOR)
     void createUser_malformedJson_returnsServerError() {
         given()

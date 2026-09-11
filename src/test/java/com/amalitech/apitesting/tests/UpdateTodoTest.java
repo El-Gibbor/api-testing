@@ -21,12 +21,12 @@ import static org.hamcrest.Matchers.equalTo;
  * TOD-PUT-01, TOD-PUT-02 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("PUT /todos/{id}")
+@Feature("Todos")
 class UpdateTodoTest extends BaseTest {
 
     @Test
     @DisplayName("TOD-PUT-01: PUT /todos/{id} fully updates an existing todo")
-    @Story("Fully update an existing todo")
+    @Story("PUT - Fully update an existing todo")
     @Severity(SeverityLevel.CRITICAL)
     void updateTodo_returnsUpdatedTodo() {
         Todo updatedTodo = TestDataLoader.load("updated-todo.json", Todo.class);
@@ -55,7 +55,7 @@ class UpdateTodoTest extends BaseTest {
         + "(KNOWN FRAGILE: same underlying backend crash as PUT-02/PUT-03 in UpdatePostTest - not a "
         + "documented contract. If this starts failing, it likely means upstream fixed the bug - relax "
         + "this assertion rather than assuming a regression.)")
-    @Story("Update a non-existent todo")
+    @Story("PUT - Update a non-existent todo")
     @Severity(SeverityLevel.MINOR)
     void updateTodo_nonExistentId_returnsServerError() {
         given()

@@ -24,12 +24,12 @@ import static org.hamcrest.Matchers.*;
  * USR-GET-01, USR-GET-02, USR-GET-03, USR-GET-04, USR-GET-05 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("GET /users")
+@Feature("Users")
 class GetUsersTest extends BaseTest {
 
     @Test
     @DisplayName("USR-GET-01: GET /users returns all users with a valid schema")
-    @Story("List all users")
+    @Story("GET - List all users")
     @Severity(SeverityLevel.CRITICAL)
     void getAllUsers_returnsUsersList() {
         User[] users = given()
@@ -49,7 +49,7 @@ class GetUsersTest extends BaseTest {
 
     @Test
     @DisplayName("USR-GET-02: GET /users/{id} returns the requested user")
-    @Story("Fetch a single user")
+    @Story("GET - Fetch a single user")
     @Severity(SeverityLevel.CRITICAL)
     void getUserById_returnsMatchingUser() {
         int userId = 1;
@@ -76,7 +76,7 @@ class GetUsersTest extends BaseTest {
 
     @Test
     @DisplayName("USR-GET-03: GET /users/{id} for a non-existent user returns 404")
-    @Story("Fetch a non-existent user")
+    @Story("GET - Fetch a non-existent user")
     @Severity(SeverityLevel.NORMAL)
     void getUserById_nonExistentId_returnsNotFound() {
         given()
@@ -90,7 +90,7 @@ class GetUsersTest extends BaseTest {
     @ParameterizedTest(name = "GET /users/{0} returns 404")
     @ValueSource(strings = {"abc", "0", "-1"})
     @DisplayName("USR-GET-04: GET /users/{id} returns 404 for invalid ids (non-numeric, zero, negative)")
-    @Story("Fetch with an invalid id")
+    @Story("GET - Fetch with an invalid id")
     @Severity(SeverityLevel.NORMAL)
     void getUserById_invalidId_returnsNotFound(String invalidId) {
         given()
@@ -103,7 +103,7 @@ class GetUsersTest extends BaseTest {
 
     @Test
     @DisplayName("USR-GET-05: GET /users?username={username} returns only the matching user")
-    @Story("Filter users by query parameter")
+    @Story("GET - Filter users by query parameter")
     @Severity(SeverityLevel.NORMAL)
     void getUsersByUsername_returnsOnlyMatchingUser() {
         String username = "Bret";

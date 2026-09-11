@@ -23,12 +23,12 @@ import static org.hamcrest.Matchers.*;
  * COM-POST-01, COM-POST-02, COM-POST-03, COM-POST-04 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("POST /comments")
+@Feature("Comments")
 class CreateCommentTest extends BaseTest {
 
     @Test
     @DisplayName("COM-POST-01: POST /comments creates a new comment and echoes the submitted fields")
-    @Story("Create a new comment")
+    @Story("POST - Create a new comment")
     @Severity(SeverityLevel.CRITICAL)
     void createComment_returnsCreatedComment() {
         Comment newComment = TestDataLoader.load("new-comment.json", Comment.class);
@@ -55,7 +55,7 @@ class CreateCommentTest extends BaseTest {
     @Test
     @DisplayName("COM-POST-02: POST /comments with an empty body still returns 201 with a generated id "
         + "(documented behavior of the fake API, which does not validate payloads)")
-    @Story("Create with an empty body")
+    @Story("POST - Create with an empty body")
     @Severity(SeverityLevel.NORMAL)
     void createComment_emptyBody_stillReturnsCreatedWithGeneratedId() {
         given()
@@ -72,7 +72,7 @@ class CreateCommentTest extends BaseTest {
     @Test
     @DisplayName("COM-POST-03: POST /comments with a non-JSON Content-Type is not parsed as JSON "
         + "(documented behavior: the fake API silently misinterprets the raw body instead of rejecting it)")
-    @Story("Create with a non-JSON Content-Type")
+    @Story("POST - Create with a non-JSON Content-Type")
     @Severity(SeverityLevel.NORMAL)
     void createComment_nonJsonContentType_bodyIsNotParsedAsJson() {
         // REST Assured appends a default charset (ISO-8859-1) to the Content-Type header unless
@@ -95,7 +95,7 @@ class CreateCommentTest extends BaseTest {
         + "(KNOWN FRAGILE: pins to the same body-parser/json-server crash as POST-04 in CreatePostTest, "
         + "not a documented 400 contract. If this test starts failing, it likely means upstream added "
         + "input validation - relax this assertion rather than assuming a regression.)")
-    @Story("Create with malformed JSON")
+    @Story("POST - Create with malformed JSON")
     @Severity(SeverityLevel.MINOR)
     void createComment_malformedJson_returnsServerError() {
         given()

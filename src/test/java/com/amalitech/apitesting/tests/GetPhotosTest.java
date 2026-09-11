@@ -24,12 +24,12 @@ import static org.hamcrest.Matchers.*;
  * PHO-GET-01, PHO-GET-02, PHO-GET-03, PHO-GET-04, PHO-GET-05 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("GET /photos")
+@Feature("Photos")
 class GetPhotosTest extends BaseTest {
 
     @Test
     @DisplayName("PHO-GET-01: GET /photos returns all photos with a valid schema")
-    @Story("List all photos")
+    @Story("GET - List all photos")
     @Severity(SeverityLevel.CRITICAL)
     void getAllPhotos_returnsPhotosList() {
         Photo[] photos = given()
@@ -49,7 +49,7 @@ class GetPhotosTest extends BaseTest {
 
     @Test
     @DisplayName("PHO-GET-02: GET /photos/{id} returns the requested photo")
-    @Story("Fetch a single photo")
+    @Story("GET - Fetch a single photo")
     @Severity(SeverityLevel.CRITICAL)
     void getPhotoById_returnsMatchingPhoto() {
         int photoId = 1;
@@ -74,7 +74,7 @@ class GetPhotosTest extends BaseTest {
 
     @Test
     @DisplayName("PHO-GET-03: GET /photos/{id} for a non-existent photo returns 404")
-    @Story("Fetch a non-existent photo")
+    @Story("GET - Fetch a non-existent photo")
     @Severity(SeverityLevel.NORMAL)
     void getPhotoById_nonExistentId_returnsNotFound() {
         given()
@@ -88,7 +88,7 @@ class GetPhotosTest extends BaseTest {
     @ParameterizedTest(name = "GET /photos/{0} returns 404")
     @ValueSource(strings = {"abc", "0", "-1"})
     @DisplayName("PHO-GET-04: GET /photos/{id} returns 404 for invalid ids (non-numeric, zero, negative)")
-    @Story("Fetch with an invalid id")
+    @Story("GET - Fetch with an invalid id")
     @Severity(SeverityLevel.NORMAL)
     void getPhotoById_invalidId_returnsNotFound(String invalidId) {
         given()
@@ -101,7 +101,7 @@ class GetPhotosTest extends BaseTest {
 
     @Test
     @DisplayName("PHO-GET-05: GET /photos?albumId={id} returns only photos belonging to that album")
-    @Story("Filter photos by query parameter")
+    @Story("GET - Filter photos by query parameter")
     @Severity(SeverityLevel.NORMAL)
     void getPhotosByAlbumId_returnsOnlyMatchingPhotos() {
         int albumId = 1;

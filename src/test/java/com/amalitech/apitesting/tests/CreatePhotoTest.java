@@ -23,12 +23,12 @@ import static org.hamcrest.Matchers.*;
  * PHO-POST-01, PHO-POST-02, PHO-POST-03, PHO-POST-04 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("POST /photos")
+@Feature("Photos")
 class CreatePhotoTest extends BaseTest {
 
     @Test
     @DisplayName("PHO-POST-01: POST /photos creates a new photo and echoes the submitted fields")
-    @Story("Create a new photo")
+    @Story("POST - Create a new photo")
     @Severity(SeverityLevel.CRITICAL)
     void createPhoto_returnsCreatedPhoto() {
         Photo newPhoto = TestDataLoader.load("new-photo.json", Photo.class);
@@ -55,7 +55,7 @@ class CreatePhotoTest extends BaseTest {
     @Test
     @DisplayName("PHO-POST-02: POST /photos with an empty body still returns 201 with a generated id "
         + "(documented behavior of the fake API, which does not validate payloads)")
-    @Story("Create with an empty body")
+    @Story("POST - Create with an empty body")
     @Severity(SeverityLevel.NORMAL)
     void createPhoto_emptyBody_stillReturnsCreatedWithGeneratedId() {
         given()
@@ -72,7 +72,7 @@ class CreatePhotoTest extends BaseTest {
     @Test
     @DisplayName("PHO-POST-03: POST /photos with a non-JSON Content-Type is not parsed as JSON "
         + "(documented behavior: the fake API silently misinterprets the raw body instead of rejecting it)")
-    @Story("Create with a non-JSON Content-Type")
+    @Story("POST - Create with a non-JSON Content-Type")
     @Severity(SeverityLevel.NORMAL)
     void createPhoto_nonJsonContentType_bodyIsNotParsedAsJson() {
         // REST Assured appends a default charset (ISO-8859-1) to the Content-Type header unless
@@ -95,7 +95,7 @@ class CreatePhotoTest extends BaseTest {
         + "(KNOWN FRAGILE: pins to the same body-parser/json-server crash as POST-04 in CreatePostTest, "
         + "not a documented 400 contract. If this test starts failing, it likely means upstream added "
         + "input validation - relax this assertion rather than assuming a regression.)")
-    @Story("Create with malformed JSON")
+    @Story("POST - Create with malformed JSON")
     @Severity(SeverityLevel.MINOR)
     void createPhoto_malformedJson_returnsServerError() {
         given()

@@ -17,12 +17,12 @@ import static org.hamcrest.Matchers.equalTo;
  * TOD-DELETE-01, TOD-DELETE-02 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("DELETE /todos/{id}")
+@Feature("Todos")
 class DeleteTodoTest extends BaseTest {
 
     @Test
     @DisplayName("TOD-DELETE-01: DELETE /todos/{id} removes an existing todo")
-    @Story("Delete an existing todo")
+    @Story("DELETE - Delete an existing todo")
     @Severity(SeverityLevel.CRITICAL)
     void deleteTodo_returnsEmptyBody() {
         given()
@@ -38,7 +38,7 @@ class DeleteTodoTest extends BaseTest {
     @Test
     @DisplayName("TOD-DELETE-02: DELETE /todos/{id} for a non-existent todo is idempotent "
         + "(documented behavior: the fake API returns 200 regardless of whether the id exists)")
-    @Story("Delete a non-existent todo")
+    @Story("DELETE - Delete a non-existent todo")
     @Severity(SeverityLevel.NORMAL)
     void deleteTodo_nonExistentId_stillReturnsOk() {
         given()

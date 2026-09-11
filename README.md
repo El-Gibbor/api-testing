@@ -43,9 +43,9 @@ mvn io.qameta.allure:allure-maven:serve
 
 Tests are annotated with `@Epic`/`@Feature`/`@Story`/`@Severity`, so the report's
 **Behaviors** tab groups results as Epic (`JSONPlaceholder API`) > Feature (one per
-endpoint, e.g. `POST /posts`) > Story (one per test-plan case, e.g. "Create with
-malformed JSON"). Severity marks the known-fragile tests documented in
-`docs/TEST_PLAN.md` as `MINOR` so they stand out from core-contract failures.
+resource, e.g. `Comments`) > Story (one per HTTP verb + test-plan case, e.g.
+"POST - Create with malformed JSON"). Severity marks the known-fragile tests documented
+in `docs/TEST_PLAN.md` as `MINOR` so they stand out from core-contract failures.
 
 ## Running in Docker
 

@@ -23,12 +23,12 @@ import static org.hamcrest.Matchers.is;
  * NEST-04 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("GET /albums/{id}/photos")
+@Feature("Albums")
 class GetAlbumPhotosTest extends BaseTest {
 
     @Test
     @DisplayName("NEST-04: GET /albums/{id}/photos returns photos belonging to that album")
-    @Story("Fetch nested photos for an album")
+    @Story("GET - Fetch nested photos for an album")
     @Severity(SeverityLevel.NORMAL)
     void getPhotosForAlbum_returnsMatchingPhotos() {
         int albumId = 1;

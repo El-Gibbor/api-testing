@@ -17,12 +17,12 @@ import static org.hamcrest.Matchers.equalTo;
  * ALB-DELETE-01, ALB-DELETE-02 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("DELETE /albums/{id}")
+@Feature("Albums")
 class DeleteAlbumTest extends BaseTest {
 
     @Test
     @DisplayName("ALB-DELETE-01: DELETE /albums/{id} removes an existing album")
-    @Story("Delete an existing album")
+    @Story("DELETE - Delete an existing album")
     @Severity(SeverityLevel.CRITICAL)
     void deleteAlbum_returnsEmptyBody() {
         given()
@@ -38,7 +38,7 @@ class DeleteAlbumTest extends BaseTest {
     @Test
     @DisplayName("ALB-DELETE-02: DELETE /albums/{id} for a non-existent album is idempotent "
         + "(documented behavior: the fake API returns 200 regardless of whether the id exists)")
-    @Story("Delete a non-existent album")
+    @Story("DELETE - Delete a non-existent album")
     @Severity(SeverityLevel.NORMAL)
     void deleteAlbum_nonExistentId_stillReturnsOk() {
         given()

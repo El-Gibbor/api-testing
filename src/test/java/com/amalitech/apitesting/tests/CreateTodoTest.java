@@ -23,12 +23,12 @@ import static org.hamcrest.Matchers.*;
  * TOD-POST-01, TOD-POST-02, TOD-POST-03, TOD-POST-04 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("POST /todos")
+@Feature("Todos")
 class CreateTodoTest extends BaseTest {
 
     @Test
     @DisplayName("TOD-POST-01: POST /todos creates a new todo and echoes the submitted fields")
-    @Story("Create a new todo")
+    @Story("POST - Create a new todo")
     @Severity(SeverityLevel.CRITICAL)
     void createTodo_returnsCreatedTodo() {
         Todo newTodo = TestDataLoader.load("new-todo.json", Todo.class);
@@ -54,7 +54,7 @@ class CreateTodoTest extends BaseTest {
     @Test
     @DisplayName("TOD-POST-02: POST /todos with an empty body still returns 201 with a generated id "
         + "(documented behavior of the fake API, which does not validate payloads)")
-    @Story("Create with an empty body")
+    @Story("POST - Create with an empty body")
     @Severity(SeverityLevel.NORMAL)
     void createTodo_emptyBody_stillReturnsCreatedWithGeneratedId() {
         given()
@@ -71,7 +71,7 @@ class CreateTodoTest extends BaseTest {
     @Test
     @DisplayName("TOD-POST-03: POST /todos with a non-JSON Content-Type is not parsed as JSON "
         + "(documented behavior: the fake API silently misinterprets the raw body instead of rejecting it)")
-    @Story("Create with a non-JSON Content-Type")
+    @Story("POST - Create with a non-JSON Content-Type")
     @Severity(SeverityLevel.NORMAL)
     void createTodo_nonJsonContentType_bodyIsNotParsedAsJson() {
         // REST Assured appends a default charset (ISO-8859-1) to the Content-Type header unless
@@ -94,7 +94,7 @@ class CreateTodoTest extends BaseTest {
         + "(KNOWN FRAGILE: pins to the same body-parser/json-server crash as POST-04 in CreatePostTest, "
         + "not a documented 400 contract. If this test starts failing, it likely means upstream added "
         + "input validation - relax this assertion rather than assuming a regression.)")
-    @Story("Create with malformed JSON")
+    @Story("POST - Create with malformed JSON")
     @Severity(SeverityLevel.MINOR)
     void createTodo_malformedJson_returnsServerError() {
         given()

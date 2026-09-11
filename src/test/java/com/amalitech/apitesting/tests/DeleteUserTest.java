@@ -17,12 +17,12 @@ import static org.hamcrest.Matchers.equalTo;
  * USR-DELETE-01, USR-DELETE-02 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("DELETE /users/{id}")
+@Feature("Users")
 class DeleteUserTest extends BaseTest {
 
     @Test
     @DisplayName("USR-DELETE-01: DELETE /users/{id} removes an existing user")
-    @Story("Delete an existing user")
+    @Story("DELETE - Delete an existing user")
     @Severity(SeverityLevel.CRITICAL)
     void deleteUser_returnsEmptyBody() {
         given()
@@ -38,7 +38,7 @@ class DeleteUserTest extends BaseTest {
     @Test
     @DisplayName("USR-DELETE-02: DELETE /users/{id} for a non-existent user is idempotent "
         + "(documented behavior: the fake API returns 200 regardless of whether the id exists)")
-    @Story("Delete a non-existent user")
+    @Story("DELETE - Delete a non-existent user")
     @Severity(SeverityLevel.NORMAL)
     void deleteUser_nonExistentId_stillReturnsOk() {
         given()

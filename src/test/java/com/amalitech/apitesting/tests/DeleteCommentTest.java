@@ -17,12 +17,12 @@ import static org.hamcrest.Matchers.equalTo;
  * COM-DELETE-01, COM-DELETE-02 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("DELETE /comments/{id}")
+@Feature("Comments")
 class DeleteCommentTest extends BaseTest {
 
     @Test
     @DisplayName("COM-DELETE-01: DELETE /comments/{id} removes an existing comment")
-    @Story("Delete an existing comment")
+    @Story("DELETE - Delete an existing comment")
     @Severity(SeverityLevel.CRITICAL)
     void deleteComment_returnsEmptyBody() {
         given()
@@ -38,7 +38,7 @@ class DeleteCommentTest extends BaseTest {
     @Test
     @DisplayName("COM-DELETE-02: DELETE /comments/{id} for a non-existent comment is idempotent "
         + "(documented behavior: the fake API returns 200 regardless of whether the id exists)")
-    @Story("Delete a non-existent comment")
+    @Story("DELETE - Delete a non-existent comment")
     @Severity(SeverityLevel.NORMAL)
     void deleteComment_nonExistentId_stillReturnsOk() {
         given()

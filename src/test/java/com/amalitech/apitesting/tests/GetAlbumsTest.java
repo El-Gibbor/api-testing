@@ -24,12 +24,12 @@ import static org.hamcrest.Matchers.*;
  * ALB-GET-01, ALB-GET-02, ALB-GET-03, ALB-GET-04, ALB-GET-05 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("GET /albums")
+@Feature("Albums")
 class GetAlbumsTest extends BaseTest {
 
     @Test
     @DisplayName("ALB-GET-01: GET /albums returns all albums with a valid schema")
-    @Story("List all albums")
+    @Story("GET - List all albums")
     @Severity(SeverityLevel.CRITICAL)
     void getAllAlbums_returnsAlbumsList() {
         Album[] albums = given()
@@ -49,7 +49,7 @@ class GetAlbumsTest extends BaseTest {
 
     @Test
     @DisplayName("ALB-GET-02: GET /albums/{id} returns the requested album")
-    @Story("Fetch a single album")
+    @Story("GET - Fetch a single album")
     @Severity(SeverityLevel.CRITICAL)
     void getAlbumById_returnsMatchingAlbum() {
         int albumId = 1;
@@ -72,7 +72,7 @@ class GetAlbumsTest extends BaseTest {
 
     @Test
     @DisplayName("ALB-GET-03: GET /albums/{id} for a non-existent album returns 404")
-    @Story("Fetch a non-existent album")
+    @Story("GET - Fetch a non-existent album")
     @Severity(SeverityLevel.NORMAL)
     void getAlbumById_nonExistentId_returnsNotFound() {
         given()
@@ -86,7 +86,7 @@ class GetAlbumsTest extends BaseTest {
     @ParameterizedTest(name = "GET /albums/{0} returns 404")
     @ValueSource(strings = {"abc", "0", "-1"})
     @DisplayName("ALB-GET-04: GET /albums/{id} returns 404 for invalid ids (non-numeric, zero, negative)")
-    @Story("Fetch with an invalid id")
+    @Story("GET - Fetch with an invalid id")
     @Severity(SeverityLevel.NORMAL)
     void getAlbumById_invalidId_returnsNotFound(String invalidId) {
         given()
@@ -99,7 +99,7 @@ class GetAlbumsTest extends BaseTest {
 
     @Test
     @DisplayName("ALB-GET-05: GET /albums?userId={id} returns only albums belonging to that user")
-    @Story("Filter albums by query parameter")
+    @Story("GET - Filter albums by query parameter")
     @Severity(SeverityLevel.NORMAL)
     void getAlbumsByUserId_returnsOnlyMatchingAlbums() {
         int userId = 1;

@@ -21,12 +21,12 @@ import static org.hamcrest.Matchers.equalTo;
  * COM-PUT-01, COM-PUT-02 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("PUT /comments/{id}")
+@Feature("Comments")
 class UpdateCommentTest extends BaseTest {
 
     @Test
     @DisplayName("COM-PUT-01: PUT /comments/{id} fully updates an existing comment")
-    @Story("Fully update an existing comment")
+    @Story("PUT - Fully update an existing comment")
     @Severity(SeverityLevel.CRITICAL)
     void updateComment_returnsUpdatedComment() {
         Comment updatedComment = TestDataLoader.load("updated-comment.json", Comment.class);
@@ -56,7 +56,7 @@ class UpdateCommentTest extends BaseTest {
         + "(KNOWN FRAGILE: same underlying backend crash as PUT-02/PUT-03 in UpdatePostTest - not a "
         + "documented contract. If this starts failing, it likely means upstream fixed the bug - relax "
         + "this assertion rather than assuming a regression.)")
-    @Story("Update a non-existent comment")
+    @Story("PUT - Update a non-existent comment")
     @Severity(SeverityLevel.MINOR)
     void updateComment_nonExistentId_returnsServerError() {
         given()

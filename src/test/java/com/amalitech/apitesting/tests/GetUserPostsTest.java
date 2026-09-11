@@ -23,12 +23,12 @@ import static org.hamcrest.Matchers.is;
  * NEST-03 from docs/TEST_PLAN.md.
  */
 @Epic("JSONPlaceholder API")
-@Feature("GET /users/{id}/posts")
+@Feature("Users")
 class GetUserPostsTest extends BaseTest {
 
     @Test
     @DisplayName("NEST-03: GET /users/{id}/posts returns posts belonging to that user")
-    @Story("Fetch nested posts for a user")
+    @Story("GET - Fetch nested posts for a user")
     @Severity(SeverityLevel.NORMAL)
     void getPostsForUser_returnsMatchingPosts() {
         int userId = 1;

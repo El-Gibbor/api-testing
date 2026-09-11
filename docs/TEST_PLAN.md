@@ -229,10 +229,12 @@ so it is treated as one backend-wide bug/quirk pair rather than six independent 
 Test results are collected as Allure results (`allure-results/`) during `mvn test` and
 rendered into a browsable HTML report via the Allure Maven plugin. Tests are annotated
 with `@Epic`/`@Feature`/`@Story`/`@Severity` so the report's **Behaviors** tab groups
-results as Epic (`JSONPlaceholder API`) > Feature (one per endpoint) > Story (one per
-test-plan case), with known-fragile tests marked `MINOR` severity to separate them from
-core-contract failures. See the root `README.md` for the exact commands, and
-`https://el-gibbor.github.io/api-testing/` for the latest published report.
+results as Epic (`JSONPlaceholder API`) > Feature (one per resource, e.g. `Comments`,
+`Users`) > Story (one per HTTP verb + test-plan case, e.g. "POST - Create a new
+comment", "GET - Fetch nested todos for a user"), with known-fragile tests marked
+`MINOR` severity to separate them from core-contract failures. See the root
+`README.md` for the exact commands, and `https://el-gibbor.github.io/api-testing/` for
+the latest published report.
 
 ## 8. CI/CD
 
